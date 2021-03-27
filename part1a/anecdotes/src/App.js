@@ -12,7 +12,7 @@ const App = () => {
 
   const [selected, setSelected] = useState(0)
   const [scores, setScores] = useState({ 0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 })
-  const [max, setMax] = useState([0, 0]) //[maxValue, maxIndex]
+  const [maxValue, maxIndex] = useState([0, 0]) //[maxValue, maxIndex]
 
   const chooseAnecdoteNumber = () => {
     let result
@@ -27,10 +27,10 @@ const App = () => {
     const copy = { ...scores }
     copy[index]++
     setScores(copy)
-    if (copy[index] > max[0]) {
-      setMax([copy[index], index])
+    if (copy[index] > maxValue[0]) {
+      maxIndex([copy[index], index])
     }
-    console.log(max)
+    console.log(maxValue)
   }
 
   return (
@@ -47,8 +47,8 @@ const App = () => {
       />
       <Anecdote
         title="Anecdote with most votes"
-        anecdote={anecdotes[max[1]]}
-        score={scores[max[1]]}
+        anecdote={anecdotes[maxValue[1]]}
+        score={scores[maxValue[1]]}
       />
     </div>
   )
