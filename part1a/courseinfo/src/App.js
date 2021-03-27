@@ -1,4 +1,6 @@
-import React from "react"
+import React, { useState } from "react"
+import Button from "react-bootstrap/Button"
+import "bootstrap/dist/css/bootstrap.min.css"
 
 const Header = (props) => {
   console.log(props)
@@ -52,12 +54,35 @@ const App = () => {
     ],
   }
 
+  const [counter, setCounter] = useState(0)
+
+  const handleClick = () => {
+    console.log("button is clicked" + counter)
+    setCounter(counter + 1)
+  }
+
   return (
-    <div>
+    <div style={{ marginLeft: "20px" }}>
       <Header course={course.name} />
       <Content parts={course.parts} />
       <Total parts={course.parts} />
+      <CounterButton />
     </div>
+  )
+}
+
+const CounterButton = () => {
+  const [counter, setCounter] = useState(0)
+  const handleClick = () => {
+    console.log("button is clicked" + counter)
+    setCounter(counter + 1)
+  }
+
+  return (
+    <>
+      <Button onClick={handleClick}>Hello I'm a Button</Button>
+      <p>{counter}</p>
+    </>
   )
 }
 
