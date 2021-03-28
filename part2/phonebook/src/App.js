@@ -1,4 +1,8 @@
 import React, { useState } from "react"
+import AddPersonForm from "./component/AddPersonForm"
+import DisplayPersons from "./component/DisplayPersons"
+
+import Filter from "./component/Filter"
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -37,6 +41,9 @@ const App = () => {
     ) {
       alert(`${newName} is already added to phonebook`)
       return
+    } else if (newName === "" || newNumber === "") {
+      alert(`Name and Number cannot be empty`)
+      return
     }
 
     const newPersons = persons.concat(newPerson)
@@ -50,30 +57,14 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <div>
-        filter shown with <input onChange={onInputFilterChange} />
-      </div>
-      <form onSubmit={onSubmitAddPerson}>
-        <div>
-          name: <input onChange={onInputNameChange} />
-        </div>
-        <div>
-          number: <input onChange={onInputNumberChange} />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <Filter onInputFilterChange={onInputFilterChange} />
+      <AddPersonForm
+        onSubmitAddPerson={onSubmitAddPerson}
+        onInputNameChange={onInputNameChange}
+        onInputNumberChange={onInputNumberChange}
+      />
       <h2>Numbers</h2>
-      {persons
-        .filter((person) =>
-          person.name.toLowerCase().includes(filter.toLowerCase())
-        )
-        .map((person, i) => (
-          <p key={i}>
-            {person.name} {person.number}
-          </p>
-        ))}
+      <DisplayPersons persons={persons} filter={filter} />
     </div>
   )
 }
