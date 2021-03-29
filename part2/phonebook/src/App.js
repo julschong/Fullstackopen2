@@ -13,23 +13,19 @@ const App = () => {
   //useEffect to call network request to retrieve Persons.
   useEffect(() => {
     noteServices.getAll().then((response) => {
-      console.log(response)
       setPersons(response)
     })
   }, [])
 
   const onInputNameChange = (event) => {
-    console.log(`Name Change: ${event.target.value}`)
     setNewName(event.target.value)
   }
 
   const onInputNumberChange = (event) => {
-    console.log(`Number Change: ${event.target.value}`)
     setNewNumber(event.target.value)
   }
 
   const onInputFilterChange = (event) => {
-    console.log(`Filter Change: ${event.target.value}`)
     setFilter(event.target.value)
   }
 
@@ -49,13 +45,33 @@ const App = () => {
       return
     }
 
-    const newPersons = persons.concat(newPerson)
-    setPersons(newPersons)
-    noteServices.create(newPerson)
-    setNewName("")
-    setNewNumber("")
-    event.target[0].value = ""
-    event.target[1].value = ""
+    noteServices.create(newPerson).then((newAddedPerson) => {
+      const newPersons = persons.concat(newAddedPerson)
+      setPersons(newPersons)
+      setNewName("")
+      setNewNumber("")
+      event.target[0].value = ""
+      event.target[1].value = ""
+    })
+  }
+
+  const onDeleteButtonClicked = (event) => {
+    const itemIdToDelete = parseInt(event.target.id)
+
+    if (
+      window.confirm(
+        `Delete ${persons.find((person) => person.id === itemIdToDelete).name}?`
+      )
+    ) {
+      noteServices
+        .deleteById(itemIdToDelete)
+        .then((result) => {
+          setPersons(persons.filter((person) => person.id !== itemIdToDelete))
+        })
+        .catch((err) => {
+          console.error(err)
+        })
+    }
   }
 
   return (
@@ -68,7 +84,11 @@ const App = () => {
         onInputNumberChange={onInputNumberChange}
       />
       <h2>Numbers</h2>
-      <DisplayPersons persons={persons} filter={filter} />
+      <DisplayPersons
+        persons={persons}
+        filter={filter}
+        onDeleteButtonClicked={onDeleteButtonClicked}
+      />
     </div>
   )
 }
