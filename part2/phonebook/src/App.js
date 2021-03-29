@@ -10,6 +10,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("")
   const [filter, setFilter] = useState("")
 
+  //useEffect to call network request to retrieve Persons.
   useEffect(() => {
     axios.get("http://localhost:3001/persons").then((response) => {
       console.log(response.data)
