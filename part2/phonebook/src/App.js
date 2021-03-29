@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react"
 import AddPersonForm from "./component/AddPersonForm"
 import DisplayPersons from "./component/DisplayPersons"
 import Filter from "./component/Filter"
-import axios from "axios"
+import noteServices from "./services/NoteServices"
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -12,9 +12,9 @@ const App = () => {
 
   //useEffect to call network request to retrieve Persons.
   useEffect(() => {
-    axios.get("http://localhost:3001/persons").then((response) => {
-      console.log(response.data)
-      setPersons(response.data)
+    noteServices.getAll().then((response) => {
+      console.log(response)
+      setPersons(response)
     })
   }, [])
 
@@ -51,6 +51,7 @@ const App = () => {
 
     const newPersons = persons.concat(newPerson)
     setPersons(newPersons)
+    noteServices.create(newPerson)
     setNewName("")
     setNewNumber("")
     event.target[0].value = ""
