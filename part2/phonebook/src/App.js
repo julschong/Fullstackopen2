@@ -71,6 +71,18 @@ const App = () => {
 
             DisplayNotifMessage(`${foundPerson.name} is updated`, "green", 2000)
           })
+          .catch((err) => {
+            if (err.response.status === 404) {
+              DisplayNotifMessage(
+                `${foundPerson.name} is already removed from server`,
+                "red",
+                2000
+              )
+              setPersons(
+                persons.filter((person) => person.id !== foundPerson.id)
+              )
+            }
+          })
       }
       return
     } else if (newName === "" || newNumber === "") {
@@ -110,14 +122,16 @@ const App = () => {
           setPersons(persons.filter((person) => person.id !== itemIdToDelete))
         })
         .catch((err) => {
-          DisplayNotifMessage(
-            `${
-              persons.find((person) => person.id === itemIdToDelete).name
-            } is already removed from server`,
-            "red",
-            2000
-          )
-          setPersons(persons.filter((person) => person.id !== itemIdToDelete))
+          if (err.response.status === 404) {
+            DisplayNotifMessage(
+              `${
+                persons.find((person) => person.id === itemIdToDelete).name
+              } is already removed from server`,
+              "red",
+              2000
+            )
+            setPersons(persons.filter((person) => person.id !== itemIdToDelete))
+          }
         })
     }
   }
