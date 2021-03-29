@@ -33,12 +33,28 @@ const App = () => {
     event.preventDefault()
 
     const newPerson = { name: newName, number: newNumber }
-    if (
-      persons.some(
-        (person) => person.name === newName && person.number === newNumber
-      )
-    ) {
-      alert(`${newName} is already added to phonebook`)
+    const foundPerson = persons.find((person) => person.name === newName)
+    if (foundPerson) {
+      if (
+        window.confirm(
+          `${newName} is already added to phonebook\ndo you want to update number from ${foundPerson.number} to ${newNumber}?`
+        )
+      ) {
+        const updatingPersonWithId = { ...newPerson, id: foundPerson.id }
+
+        noteServices
+          .updatePersonById(foundPerson.id, updatingPersonWithId)
+          .then((result) => {
+            const newPersons = persons
+              .filter((person) => person.id !== foundPerson.id)
+              .concat(updatingPersonWithId)
+            setPersons(newPersons)
+            setNewName("")
+            setNewNumber("")
+            event.target[0].value = ""
+            event.target[1].value = ""
+          })
+      }
       return
     } else if (newName === "" || newNumber === "") {
       alert(`Name and Number cannot be empty`)
