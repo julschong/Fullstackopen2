@@ -110,7 +110,14 @@ const App = () => {
           setPersons(persons.filter((person) => person.id !== itemIdToDelete))
         })
         .catch((err) => {
-          console.error(err)
+          DisplayNotifMessage(
+            `${
+              persons.find((person) => person.id === itemIdToDelete).name
+            } is already removed from server`,
+            "red",
+            2000
+          )
+          setPersons(persons.filter((person) => person.id !== itemIdToDelete))
         })
     }
   }
