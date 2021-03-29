@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react"
 import AddPersonForm from "./component/AddPersonForm"
 import DisplayPersons from "./component/DisplayPersons"
 import Filter from "./component/Filter"
+import Notification from "./component/Notification"
 import noteServices from "./services/NoteServices"
 
 const App = () => {
@@ -9,6 +10,20 @@ const App = () => {
   const [newName, setNewName] = useState("")
   const [newNumber, setNewNumber] = useState("")
   const [filter, setFilter] = useState("")
+  const [notifMessage, setNotifMessage] = useState([])
+
+  const DisplayNotifMessage = (message, color, milliseconds) => {
+    if (JSON.stringify(notifMessage) !== "[]") {
+      clearTimeout(notifMessage[2])
+    }
+    setNotifMessage([
+      message,
+      color,
+      setTimeout(() => {
+        setNotifMessage([])
+      }, milliseconds),
+    ])
+  }
 
   //useEffect to call network request to retrieve Persons.
   useEffect(() => {
@@ -53,6 +68,8 @@ const App = () => {
             setNewNumber("")
             event.target[0].value = ""
             event.target[1].value = ""
+
+            DisplayNotifMessage(`${foundPerson.name} is updated`, "green", 2000)
           })
       }
       return
@@ -68,6 +85,7 @@ const App = () => {
       setNewNumber("")
       event.target[0].value = ""
       event.target[1].value = ""
+      DisplayNotifMessage(`${newAddedPerson.name} is added`, "green", 2000)
     })
   }
 
@@ -82,6 +100,13 @@ const App = () => {
       noteServices
         .deleteById(itemIdToDelete)
         .then((result) => {
+          DisplayNotifMessage(
+            `Deleted ${
+              persons.find((person) => person.id === itemIdToDelete).name
+            }`,
+            "red",
+            2000
+          )
           setPersons(persons.filter((person) => person.id !== itemIdToDelete))
         })
         .catch((err) => {
@@ -93,7 +118,9 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={notifMessage} />
       <Filter onInputFilterChange={onInputFilterChange} />
+      <h2>Add a New</h2>
       <AddPersonForm
         onSubmitAddPerson={onSubmitAddPerson}
         onInputNameChange={onInputNameChange}
