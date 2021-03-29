@@ -23,6 +23,7 @@ const App = () => {
   return (
     <div>
       find countries <input onChange={onInputFilterChange} />
+      <br></br>
       <DisplayCountries countries={countries} />
     </div>
   )
