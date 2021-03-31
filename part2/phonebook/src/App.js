@@ -3,7 +3,7 @@ import AddPersonForm from "./component/AddPersonForm"
 import DisplayPersons from "./component/DisplayPersons"
 import Filter from "./component/Filter"
 import Notification from "./component/Notification"
-import noteServices from "./services/NoteServices"
+import personServices from "./services/PersonServices"
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -27,7 +27,7 @@ const App = () => {
 
   //useEffect to call network request to retrieve Persons.
   useEffect(() => {
-    noteServices.getAll().then((response) => {
+    personServices.getAll().then((response) => {
       setPersons(response)
     })
   }, [])
@@ -48,6 +48,7 @@ const App = () => {
     event.preventDefault()
 
     const newPerson = { name: newName, number: newNumber }
+
     const foundPerson = persons.find((person) => person.name === newName)
     if (foundPerson) {
       if (
@@ -57,7 +58,7 @@ const App = () => {
       ) {
         const updatingPersonWithId = { ...newPerson, id: foundPerson.id }
 
-        noteServices
+        personServices
           .updatePersonById(foundPerson.id, updatingPersonWithId)
           .then((result) => {
             const newPersons = persons
@@ -90,7 +91,7 @@ const App = () => {
       return
     }
 
-    noteServices.create(newPerson).then((newAddedPerson) => {
+    personServices.create(newPerson).then((newAddedPerson) => {
       const newPersons = persons.concat(newAddedPerson)
       setPersons(newPersons)
       setNewName("")
@@ -102,38 +103,38 @@ const App = () => {
   }
 
   const onDeleteButtonClicked = (event) => {
-    const itemIdToDelete = parseInt(event.target.id)
-
-    if (
-      window.confirm(
-        `Delete ${persons.find((person) => person.id === itemIdToDelete).name}?`
-      )
-    ) {
-      noteServices
-        .deleteById(itemIdToDelete)
-        .then((result) => {
-          DisplayNotifMessage(
-            `Deleted ${
-              persons.find((person) => person.id === itemIdToDelete).name
-            }`,
-            "red",
-            2000
-          )
-          setPersons(persons.filter((person) => person.id !== itemIdToDelete))
-        })
-        .catch((err) => {
-          if (err.response.status === 404) {
-            DisplayNotifMessage(
-              `${
-                persons.find((person) => person.id === itemIdToDelete).name
-              } is already removed from server`,
-              "red",
-              2000
-            )
-            setPersons(persons.filter((person) => person.id !== itemIdToDelete))
-          }
-        })
-    }
+    const itemIdToDelete = event.target.id
+    console.log(itemIdToDelete)
+    const personToBeDeleted = personServices
+      .findOne(itemIdToDelete)
+      .then((result) => {
+        if (window.confirm(`Delete ${personToBeDeleted.name}?`)) {
+          personServices
+            .deleteById(itemIdToDelete)
+            .then((result) => {
+              DisplayNotifMessage(
+                `Deleted ${personToBeDeleted.name}`,
+                "red",
+                2000
+              )
+              setPersons(
+                persons.filter((person) => person.id !== itemIdToDelete)
+              )
+            })
+            .catch((err) => {
+              if (err.response.status === 404) {
+                DisplayNotifMessage(
+                  `${personToBeDeleted.name} is already removed from server`,
+                  "red",
+                  2000
+                )
+                setPersons(
+                  persons.filter((person) => person.id !== itemIdToDelete)
+                )
+              }
+            })
+        }
+      })
   }
 
   return (
