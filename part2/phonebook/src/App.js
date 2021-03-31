@@ -100,37 +100,37 @@ const App = () => {
 
   const onDeleteButtonClicked = (event) => {
     const itemIdToDelete = event.target.id
-    console.log(itemIdToDelete)
-    const personToBeDeleted = personServices
-      .findOne(itemIdToDelete)
-      .then((result) => {
-        if (window.confirm(`Delete ${personToBeDeleted.name}?`)) {
-          personServices
-            .deleteById(itemIdToDelete)
-            .then((result) => {
+    personServices.findOne(itemIdToDelete).then((result) => {
+      const localPersonToBeDeleted = persons.find(
+        (p) => p.id === itemIdToDelete
+      )
+      console.log(localPersonToBeDeleted)
+
+      if (window.confirm(`Delete ${result.name}?`)) {
+        personServices
+          .deleteById(itemIdToDelete)
+          .then((result) => {
+            DisplayNotifMessage(
+              `Deleted ${localPersonToBeDeleted.name}`,
+              "red",
+              2000
+            )
+            setPersons(persons.filter((person) => person.id !== itemIdToDelete))
+          })
+          .catch((err) => {
+            if (err.response.status === 404) {
               DisplayNotifMessage(
-                `Deleted ${personToBeDeleted.name}`,
+                `${localPersonToBeDeleted.name} is already removed from server`,
                 "red",
                 2000
               )
               setPersons(
                 persons.filter((person) => person.id !== itemIdToDelete)
               )
-            })
-            .catch((err) => {
-              if (err.response.status === 404) {
-                DisplayNotifMessage(
-                  `${personToBeDeleted.name} is already removed from server`,
-                  "red",
-                  2000
-                )
-                setPersons(
-                  persons.filter((person) => person.id !== itemIdToDelete)
-                )
-              }
-            })
-        }
-      })
+            }
+          })
+      }
+    })
   }
 
   return (
