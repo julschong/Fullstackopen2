@@ -73,16 +73,7 @@ const App = () => {
             DisplayNotifMessage(`${foundPerson.name} is updated`, "green", 2000)
           })
           .catch((err) => {
-            if (err.response.status === 404) {
-              DisplayNotifMessage(
-                `${foundPerson.name} is already removed from server`,
-                "red",
-                2000
-              )
-              setPersons(
-                persons.filter((person) => person.id !== foundPerson.id)
-              )
-            }
+            DisplayNotifMessage(`${err.response.data.error}`, "Red", 5000)
           })
       }
       return
@@ -91,15 +82,20 @@ const App = () => {
       return
     }
 
-    personServices.create(newPerson).then((newAddedPerson) => {
-      const newPersons = persons.concat(newAddedPerson)
-      setPersons(newPersons)
-      setNewName("")
-      setNewNumber("")
-      event.target[0].value = ""
-      event.target[1].value = ""
-      DisplayNotifMessage(`${newAddedPerson.name} is added`, "green", 2000)
-    })
+    personServices
+      .create(newPerson)
+      .then((newAddedPerson) => {
+        const newPersons = persons.concat(newAddedPerson)
+        setPersons(newPersons)
+        setNewName("")
+        setNewNumber("")
+        event.target[0].value = ""
+        event.target[1].value = ""
+        DisplayNotifMessage(`${newAddedPerson.name} is added`, "green", 2000)
+      })
+      .catch((err) => {
+        DisplayNotifMessage(`${err.response.data.error}`, "Red", 5000)
+      })
   }
 
   const onDeleteButtonClicked = (event) => {
