@@ -16,12 +16,24 @@ const favoriteBlog = (blogs) => {
 }
 
 const mostBlogs = (blogs) => {
-    let result = _.countBy(blogs, 'author')
-    let authorWithMostBlogs = Object.keys(result).reduce((a, b) => result[a] > result[b] ? a : b)
+    const result = _.countBy(blogs, 'author')
+    const authorWithMostBlogs = Object.keys(result).reduce((a, b) => result[a] > result[b] ? a : b)
 
     return { author: authorWithMostBlogs, blogs: result[authorWithMostBlogs] }
 }
 
+const mostLikes = (blogs) => {
+    const result = _(blogs)
+        .groupBy('author')
+        .map((obj, key) => ({
+            'author': key,
+            'likes': _.sumBy(obj, 'likes')
+        }))
+        .maxBy('likes')
+
+    return result
+}
+
 module.exports = {
-    dummy, totalLikes, favoriteBlog, mostBlogs
+    dummy, totalLikes, favoriteBlog, mostBlogs, mostLikes
 }
