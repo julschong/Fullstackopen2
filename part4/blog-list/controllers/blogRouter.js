@@ -18,7 +18,6 @@ blogRouter.get('/:id', async function (request, response) {
 
 blogRouter.post('/', async (request, response, next) => {
     const blog = new Blog(request.body)
-    console.log(request)
 
     const savedAndReturnedBlog = await blog.save()
     response.status(201).json(savedAndReturnedBlog)

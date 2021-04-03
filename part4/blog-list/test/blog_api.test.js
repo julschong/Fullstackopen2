@@ -65,6 +65,18 @@ describe('postOne', () => {
         const blogsAuthorsArray = response.body.map((blog) => blog.author)
         expect(blogsAuthorsArray).toContain('Unknown Author')
     })
+
+    test('should default likes to 0 if likes prop is missing', async () => {
+        const newBlog = {
+            title: 'This does not exist in DB yet',
+            author: 'Unknown Author',
+            url: 'http://unknownendpoint.com',
+        }
+        const response = await api.post('/api/blogs').send(newBlog)
+
+        expect(response.body.likes).toBe(0)
+    })
+
 })
 
 test('should have id instead of _id, testing toJSON()', async () => {
