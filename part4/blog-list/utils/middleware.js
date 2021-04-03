@@ -4,8 +4,8 @@ const unknownEndPoint = (request, response) => {
     response.status(400).json({ error: 'unknown endpoint' })
 }
 
-const errorHandler = (err, request, response) => {
-    response.status(400).json({ error: err.message })
+const errorHandler = (err, req, res, next) => {
+    res.status(400).json({ error: err.message })
 }
 
 morgan.token('body', function (req) {
