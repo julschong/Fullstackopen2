@@ -1,5 +1,6 @@
 const express = require('express')
 require('dotenv').config({ path: __dirname + '\\.env' })
+require('express-async-errors')
 const cors = require('cors')
 const blogRouter = require('./controllers/blogRouter')
 const { unknownEndPoint, errorHandler, customMorgan } = require('./utils/middleware')
