@@ -8,12 +8,15 @@ const DisplayPersons = ({ persons, filter, onDeleteButtonClicked }) => {
           person.name.toLowerCase().includes(filter.toLowerCase())
         )
         .map((person, i) => (
-          <p key={i} className="personList">
-            {person.name} {person.number}{" "}
-            <button id={person.id} onClick={onDeleteButtonClicked}>
-              delete
+          <>
+            <p key={i} className="personList">
+              {person.name} {person.number}{" "}
+              <button id={person.id} onClick={onDeleteButtonClicked}>
+                delete
             </button>
-          </p>
+            </p>
+            <br></br>
+          </>
         ))}
     </div>
   )
