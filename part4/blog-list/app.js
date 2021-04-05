@@ -5,6 +5,7 @@ require('express-async-errors')
 const { unknownEndPoint, errorHandler, customMorgan } = require('./utils/middleware')
 const cors = require('cors')
 const mongoose = require('mongoose')
+const config = require('./utils/config')
 
 const blogRouter = require('./controllers/blogRouter')
 const userRouter = require('./controllers/userRouter')
@@ -20,9 +21,9 @@ app.use(express.json())
 // use tiny morgan with additional request body
 app.use(customMorgan)
 
-const mongoUrl = process.env.NODE_ENV === 'test'
-    ? process.env.TEST_MONGO_URL
-    : process.env.MONGO_URL
+const mongoUrl = config.NODE_ENV === 'test'
+    ? config.TEST_MONGO_URL
+    : config.MONGO_URL
 
 mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
 
