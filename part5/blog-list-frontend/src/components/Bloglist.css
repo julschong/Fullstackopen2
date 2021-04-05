@@ -1,7 +1,7 @@
 .blog-list {
-    margin: auto;
-    width: 75%;
-    min-width: 800px;
+    margin: 5vh auto;
+    width: 75vw;
+    min-width: 200px;
     text-align: left;
     position: relative;
 }

@@ -7,9 +7,9 @@ import './Bloglist.css'
 const Bloglist = ({ blogs }) => {
     return (
         <div className="blog-list">
-            <ListGroup>
-                {blogs.map(blog => <BlogItem blog={blog} />)}
-            </ListGroup>
+
+            {blogs.map(blog => <BlogItem key={blog.id + "-root"} blog={blog} />)}
+
         </div>
     )
 }

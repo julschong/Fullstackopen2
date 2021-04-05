@@ -1,7 +1,7 @@
 .login-form {
     width: 20vw;
-    min-width: 300px;
-    margin: auto;
+    min-width: 200px;
+    margin: 5vh 12.5vw 5vh auto;
     text-align: left;
     line-height: 2rem;
     text-transform: uppercase;

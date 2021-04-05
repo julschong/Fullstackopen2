@@ -4,6 +4,8 @@ import LoginForm from './components/LoginForm'
 import React, { useState, useEffect } from 'react'
 import blogService from './services/blogService'
 import BlogList from './components/Bloglist'
+import Tabs from 'react-bootstrap/Tabs'
+import Tab from 'react-bootstrap/Tab'
 
 
 const App = () => {
@@ -20,6 +22,7 @@ const App = () => {
 
   const submitButtonClicked = (e) => {
     e.preventDefault();
+    console.log(e)
     e.target.reset()
     setUsername('')
     setPassword('')
@@ -28,12 +31,17 @@ const App = () => {
   return (
     <div className="App">
       <h1>My Blog</h1>
-      <LoginForm className="login-form"
-        submitButtonClicked={submitButtonClicked}
-        setUsername={setUsername}
-        setPassword={setPassword} />
-      <BlogList blogs={blogs} />
-
+      <Tabs defaultActiveKey="home" id="uncontrolled-tab-example">
+        <Tab eventKey="home" title="Home">
+          <LoginForm className="login-form"
+            submitButtonClicked={submitButtonClicked}
+            setUsername={setUsername}
+            setPassword={setPassword} />
+          <BlogList blogs={blogs} />
+        </Tab>
+        <Tab eventKey="profile" title="Profile">
+        </Tab>
+      </Tabs>
     </div >
   )
 }
