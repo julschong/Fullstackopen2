@@ -1,25 +1,41 @@
-import logo from './logo.svg';
-import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css'
+import './App.css'
+import LoginForm from './components/LoginForm'
+import React, { useState, useEffect } from 'react'
+import blogService from './services/blogService'
+import BlogList from './components/Bloglist'
 
-function App() {
+
+const App = () => {
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [blogs, setBlogs] = useState([])
+
+  useEffect(() => {
+    blogService.getAll().then(blogs => {
+      setBlogs(blogs)
+    })
+  }, [])
+
+
+  const submitButtonClicked = (e) => {
+    e.preventDefault();
+    e.target.reset()
+    setUsername('')
+    setPassword('')
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+      <h1>My Blog</h1>
+      <LoginForm className="login-form"
+        submitButtonClicked={submitButtonClicked}
+        setUsername={setUsername}
+        setPassword={setPassword} />
+      <BlogList blogs={blogs} />
+
+    </div >
+  )
 }
 
 export default App;
