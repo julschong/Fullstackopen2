@@ -1,4 +1,6 @@
 const morgan = require('morgan')
+const jwt = require('jsonwebtoken')
+const config = require('./config')
 
 const unknownEndPoint = (request, response) => {
     response.status(400).json({ error: 'unknown endpoint' })
@@ -23,6 +25,13 @@ const tokenExtractor = (req, res, next) => {
     next()
 }
 
+const userExtractor = (req, res, next) => {
+    if (req.token) {
+        req.user = jwt.verify(req.token, config.SECRET)
+    }
+    next()
+}
+
 const customMorgan = morgan(':method :url :status :res[content-length] - :response-time ms :body')
 
-module.exports = { unknownEndPoint, errorHandler, customMorgan, tokenExtractor }
+module.exports = { unknownEndPoint, errorHandler, customMorgan, tokenExtractor, userExtractor }

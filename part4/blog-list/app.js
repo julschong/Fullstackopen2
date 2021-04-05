@@ -2,7 +2,7 @@
 const express = require('express')
 require('dotenv').config({ path: __dirname + '\\.env' })
 require('express-async-errors')
-const { unknownEndPoint, errorHandler, customMorgan, tokenExtractor } = require('./utils/middleware')
+const { unknownEndPoint, errorHandler, customMorgan, tokenExtractor, userExtractor } = require('./utils/middleware')
 const cors = require('cors')
 const mongoose = require('mongoose')
 const config = require('./utils/config')
