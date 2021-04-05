@@ -1,0 +1,21 @@
+.blog-list {
+    margin: auto;
+    width: 75%;
+    min-width: 800px;
+    text-align: left;
+    position: relative;
+}
+
+[class='author card-title h5'] {
+    text-align: right;
+    position: absolute;
+    bottom: 0.1rem;
+    right: 1rem;
+}
+
+[class='url card-text'] {
+    text-align: right;
+    position: absolute;
+    top: 0.1rem;
+    right: 1rem;
+}

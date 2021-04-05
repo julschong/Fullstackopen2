@@ -1,25 +1,35 @@
+* {
+    margin: 10px 0px;
+    padding: 0px;
+    box-sizing: content-box;
+}
+
+.app-container {
+    text-align: center;
+}
+
 h2 {
-  color: green;
-  font-style: italic;
-  width: fit-content;
+    color: green;
+    font-style: italic;
 }
 
 .personList {
-  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
-  font-weight: bold;
-  width: fit-content;
-  border: 1px dotted blue;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS',
+        sans-serif;
+    font-weight: bold;
+    display: inline-block;
+    border: 1px dotted blue;
 }
 
 h2:hover {
-  background-color: red;
+    background-color: red;
 }
 
 .error {
-  background-color: lightgray;
-  font-size: 15px;
-  border-style: solid;
-  border-radius: 5px;
-  padding: 5px;
-  font-size: large;
+    background-color: lightgray;
+    font-size: 15px;
+    border-style: solid;
+    border-radius: 5px;
+    padding: 5px;
+    font-size: large;
 }
