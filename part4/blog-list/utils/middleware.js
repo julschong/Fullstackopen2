@@ -6,7 +6,7 @@ const unknownEndPoint = (request, response) => {
     response.status(400).json({ error: 'unknown endpoint' })
 }
 
-const errorHandler = (err, req, res, next) => {
+const errorHandler = (err, req, res) => {
     res.status(400).json({ error: err.message })
 }
 
