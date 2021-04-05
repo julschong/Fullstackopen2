@@ -2,7 +2,7 @@
 const express = require('express')
 require('dotenv').config({ path: __dirname + '\\.env' })
 require('express-async-errors')
-const { unknownEndPoint, errorHandler, customMorgan } = require('./utils/middleware')
+const { unknownEndPoint, errorHandler, customMorgan, tokenExtractor } = require('./utils/middleware')
 const cors = require('cors')
 const mongoose = require('mongoose')
 const config = require('./utils/config')
@@ -29,6 +29,9 @@ mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true, us
 
 // set default path of blogRouter to /api/blogs
 // set app to use blogRouter
+
+app.use(tokenExtractor)
+
 app.use('/api/blogs', blogRouter)
 
 app.use('/api/users', userRouter)
