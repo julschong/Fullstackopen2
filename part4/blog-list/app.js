@@ -8,6 +8,7 @@ const mongoose = require('mongoose')
 
 const blogRouter = require('./controllers/blogRouter')
 const userRouter = require('./controllers/userRouter')
+const loginRouter = require('./controllers/loginRouter')
 
 const app = express()
 app.use(cors())
@@ -30,6 +31,8 @@ mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true, us
 app.use('/api/blogs', blogRouter)
 
 app.use('/api/users', userRouter)
+
+app.use('/api/login', loginRouter)
 
 // use errorHandler as a generic response.status(400) with error code in the body
 app.use(errorHandler)
