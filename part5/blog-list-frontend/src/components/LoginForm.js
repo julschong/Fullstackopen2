@@ -7,21 +7,21 @@ import './LoginForm.css'
 
 const LoginForm = ({ setUsername, setPassword, className, submitButtonClicked }) => {
     return (
-        <div className={className}>
-            <Form onSubmit={submitButtonClicked}>
-                <Form.Label>Username</Form.Label>
-                <Form.Control type="text" placeholder="Enter username"
-                    onChange={(event) => setUsername(event.target.value)} />
+        <Form className={className} onSubmit={submitButtonClicked}>
+            <Form.Label>Username</Form.Label>
+            <Form.Control type="text" placeholder="Enter username"
+                onChange={(event) => setUsername(event.target.value)} />
 
-                <Form.Label>Password</Form.Label>
-                <Form.Control type="password" placeholder="Enter password"
-                    onChange={(event) => setPassword(event.target.value)} />
-                <br></br>
+            <Form.Label>Password</Form.Label>
+            <Form.Control type="password" placeholder="Enter password"
+                onChange={(event) => setPassword(event.target.value)} />
+            <br></br>
+            <Button id="login-button" variant="outline-primary"
+                type="submit" name="login">login</Button>
 
-                <Button variant="outline-primary"
-                    type="submit">login</Button>
-            </Form>
-        </div>
+            <Button id="register-button" variant="outline-primary"
+                type="submit" name="register">register</Button>
+        </Form>
     )
 }
 

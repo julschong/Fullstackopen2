@@ -7,4 +7,14 @@ const getAll = async () => {
     return res.data
 }
 
-export default { getAll }
+const createOne = async (blog, token) => {
+    const auth = { headers: { Authorization: "bearer " + token } }
+    console.log(auth)
+    const res = await axios.post(base_Url, blog, auth)
+    return res.data
+}
+
+
+const blogService = { getAll, createOne }
+
+export default blogService
