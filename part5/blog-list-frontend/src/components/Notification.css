@@ -1,0 +1,11 @@
+.error {
+    background: lightgray;
+    margin: auto;
+    width: 75%;
+    display: flex;
+    text-align: center;
+    padding-left: 1rem;
+    border: 2px black solid;
+    border-radius: 5px;
+    font-family: 'Times New Roman', Times, serif;
+}

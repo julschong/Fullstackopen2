@@ -4,10 +4,15 @@ import BlogItem from './BlogItem'
 import './Bloglist.css'
 
 const Bloglist = ({ blogs }) => {
+
+    const sortedblogs = [...blogs].sort((a, b) => (a.id < b.id) ? 1 : -1)
+    console.log(blogs)
+    console.log(sortedblogs)
+
     return (
         <div className="blog-list">
 
-            {blogs.map(blog => <BlogItem key={blog.id + "-root"} blog={blog} />)}
+            {sortedblogs.map(blog => <BlogItem key={blog.id + "-root"} blog={blog} />)}
 
         </div>
     )

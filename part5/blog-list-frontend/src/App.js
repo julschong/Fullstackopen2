@@ -1,11 +1,15 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.css'
-import LoginForm from './components/LoginForm'
 import React, { useState, useEffect } from 'react'
+
 import blogService from './services/blogService'
 import loginService from './services/loginService'
+
 import BlogList from './components/Bloglist'
 import CreateNewBlog from './components/CreateNewBlog'
+import LoginForm from './components/LoginForm'
+import Notification from './components/Notification'
+
 import Tabs from 'react-bootstrap/Tabs'
 import Tab from 'react-bootstrap/Tab'
 
@@ -15,6 +19,7 @@ const initialization = userFile ? 'Logged In' : 'Start'
 const App = () => {
 
     const [appState, setAppState] = useState(initialization)
+    const [notificationMessage, setNotificationMessage] = useState({})
 
     const [newTitle, setNewTitle] = useState('')
     const [newAuthor, setNewAuthor] = useState('')
@@ -29,6 +34,19 @@ const App = () => {
             setBlogs(blogs)
         })
     }, [appState])
+
+    const dispayNotificationMessage = (text, color, duration) => {
+        if (!isEmpty(notificationMessage)) {
+            setNotificationMessage({})
+            clearTimeout(notificationMessage.timeout)
+        }
+
+        const timeOutNumber = setTimeout(() => {
+            setNotificationMessage({})
+        }, duration)
+        setNotificationMessage({ text: text, color: color, timeout: timeOutNumber })
+
+    }
 
 
     const submitButtonClicked = async (e) => {
@@ -45,6 +63,7 @@ const App = () => {
                     console.log(credential)
                     window.localStorage.setItem('token', JSON.stringify(credential))
                     setAppState('Logged In')
+                    dispayNotificationMessage('Logged In', "Green", 3000)
                 } catch (err) {
                     console.log(err.message)
                     return
@@ -52,18 +71,21 @@ const App = () => {
                 break
 
             case "save":
+                if (newTitle === '' || newAuthor === '') {
+                    return dispayNotificationMessage("Title and Author cannot be Empry", "Red", 3000)
+                }
                 const newBlog = {
                     title: newTitle,
                     author: newAuthor,
-                    url: newURL
+                    url: newURL || "no url"
                 }
 
                 try {
                     const blog = await blogService.createOne(newBlog, userFile.token)
-                    console.log(blog)
                     setBlogs(blogs.concat(blog))
+                    dispayNotificationMessage("blog is saved succesfully", "Green", 3000)
                 } catch (err) {
-                    console.log(err.message)
+                    dispayNotificationMessage(err.message, "Red", 2000)
                     return
                 }
                 break
@@ -81,6 +103,10 @@ const App = () => {
             <h1>My Blog</h1>
             <Tabs defaultActiveKey="home" id="uncontrolled-tab-example">
                 <Tab eventKey="home" title="Home">
+                    {isEmpty(notificationMessage)
+                        ? null
+                        : <Notification text={notificationMessage.text} color={notificationMessage.color} />}
+
                     {appState === 'Start'
                         ? <LoginForm className="login-form"
                             submitButtonClicked={submitButtonClicked}
@@ -92,13 +118,17 @@ const App = () => {
                             setNewURL={setNewURL} />}
 
 
-                    <BlogList blogs={[...blogs].sort((a, b) => (a.createdAt < b.createdAt))} />
+                    <BlogList blogs={blogs} />
                 </Tab>
                 <Tab eventKey="profile" title="Profile">
                 </Tab>
             </Tabs>
         </div >
     )
+}
+
+const isEmpty = (object) => {
+    return JSON.stringify(object) === '{}'
 }
 
 export default App;
