@@ -9,7 +9,7 @@
 [class='author card-title h5'] {
     text-align: right;
     position: absolute;
-    bottom: 0.1rem;
+    bottom: 0.5rem;
     right: 1rem;
 }
 
@@ -17,5 +17,12 @@
     text-align: right;
     position: absolute;
     top: 0.1rem;
+    right: 1rem;
+}
+
+[class='likes card-text'] {
+    text-align: right;
+    position: absolute;
+    top: 50%;
     right: 1rem;
 }

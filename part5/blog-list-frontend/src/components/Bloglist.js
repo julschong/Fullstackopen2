@@ -6,8 +6,6 @@ import './Bloglist.css'
 const Bloglist = ({ blogs }) => {
 
     const sortedblogs = [...blogs].sort((a, b) => (a.id < b.id) ? 1 : -1)
-    console.log(blogs)
-    console.log(sortedblogs)
 
     return (
         <div className="blog-list">

@@ -1,20 +1,20 @@
-.login-form {
+.registration-form {
     width: 20vw;
     min-width: 200px;
-    margin: 2vh auto;
+    margin: 8vh auto;
     text-align: left;
     line-height: 2rem;
     text-transform: uppercase;
     position: relative;
 }
 
-#register-button-on-login {
+#register-button {
+    left: 0;
+    width: 45%;
+}
+
+#back-button {
     right: 0;
     width: 45%;
     position: absolute;
-}
-
-#login-button {
-    left: 0;
-    width: 45%;
 }

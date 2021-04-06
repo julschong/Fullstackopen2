@@ -9,7 +9,6 @@ const getAll = async () => {
 
 const createOne = async (blog, token) => {
     const auth = { headers: { Authorization: "bearer " + token } }
-    console.log(auth)
     const res = await axios.post(base_Url, blog, auth)
     return res.data
 }

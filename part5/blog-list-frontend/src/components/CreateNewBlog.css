@@ -1,18 +1,28 @@
 .newBlog {
-    margin: 5vh auto;
-    width: 75vw;
+    margin: 2vh auto;
+    width: 40vw;
     min-width: 200px;
     text-align: left;
     position: relative;
 }
 
-#save-button{
-    left:0;
+#save-button {
+    left: 0;
     width: 45%;
 }
 
-#clear-button{
-    right:0;
+#clear-button {
+    right: 0;
     width: 45%;
     position: absolute;
+}
+
+#logout-button {
+    right: 0;
+    top: -1.2vh;
+    position: absolute;
+}
+
+#content {
+    height: 7rem;
 }

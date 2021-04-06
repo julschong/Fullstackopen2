@@ -19,8 +19,8 @@ const LoginForm = ({ setUsername, setPassword, className, submitButtonClicked })
             <Button id="login-button" variant="outline-primary"
                 type="submit" name="login">login</Button>
 
-            <Button id="register-button" variant="outline-primary"
-                type="submit" name="register">register</Button>
+            <Button id="register-button-on-login" variant="outline-primary"
+                type="submit" name="register-screen">register</Button>
         </Form>
     )
 }

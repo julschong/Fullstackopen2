@@ -33,12 +33,15 @@ blogRouter.post('/', userExtractor, async (request, response) => {
         title: body.title,
         author: body.author,
         url: body.url,
+        content: body.content,
         user: user._id
     })
 
-    const savedAndReturnedBlog = await blog.save()
+    let savedAndReturnedBlog = await blog.save()
     user.blogs = user.blogs.concat(savedAndReturnedBlog._id)
     await user.save()
+
+    savedAndReturnedBlog = await Blog.findById(savedAndReturnedBlog._id).populate('user', { username: 1, name: 1 })
 
     response.json(savedAndReturnedBlog)
 
