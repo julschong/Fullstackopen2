@@ -1,34 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>My First HTML Page</title>
-        <style>
-            div {
-                background: hsla(0, 100%, 50%, 0.15);
-                width: 100px;
-                padding: 0px;
-                margin: 0px;
-                height: 100px;
-            }
 
-            .button {
-                width: 100%;
-                margin: 0px;
-                height: 100%;
-                border-radius: 0;
-                border: 0;
-                background: hsla(0, 100%, 50%, 0);
-                cursor: pointer;
-            }
-        </style>
-    </head>
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My First HTML Page</title>
+    <style>
+        .flex-container {
+            line-height: 200px;
+            height: fit-content;
+            border: 3px solid green;
+            text-align: center;
+        }
 
-    <body>
-        <div>
-            <button class="button"></button>
+        .item p {
+            line-height: 1.5;
+            display: inline-block;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="flex-container">
+        <div class="item">
+            <p>1</p>
         </div>
-    </body>
+        <div class="item">
+            <p>1</p>
+        </div>
+        <div class="item">
+            <p>1</p>
+        </div>
+    </div>
+</body>
+
 </html>

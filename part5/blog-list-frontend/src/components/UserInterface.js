@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { LOGGED_IN, NOT_LOGGED_IN, REGISTERING } from '../utils/appStates'
 import LoginForm from '../components/LoginForm'
 import CreateNewBlog from '../components/CreateNewBlog'
@@ -15,6 +15,8 @@ const UserInterface = ({ appState, displayNotificationMessage, setUserFile, setA
     const [newAuthor, setNewAuthor] = useState('')
     const [newURL, setNewURL] = useState('')
     const [newContent, setNewContent] = useState('')
+
+    const blogFromRef = useRef()
 
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
@@ -46,7 +48,7 @@ const UserInterface = ({ appState, displayNotificationMessage, setUserFile, setA
 
             case "save":
                 if (newTitle === '' || newAuthor === '') {
-                    return displayNotificationMessage("Title and Author cannot be Empry", "Red", 3000)
+                    return displayNotificationMessage("Title and Author cannot be Empty", "Red", 3000)
                 }
                 const newBlog = {
                     title: newTitle,
@@ -59,6 +61,8 @@ const UserInterface = ({ appState, displayNotificationMessage, setUserFile, setA
                     const blog = await blogService.createOne(newBlog, userFile.token)
                     setBlogs(blogs.concat(blog))
                     displayNotificationMessage("blog is saved succesfully", "Green", 3000)
+                    blogFromRef.current.toggle()
+
                 } catch (err) {
                     displayNotificationMessage(err.message, "Red", 2000)
                     return
@@ -132,7 +136,7 @@ const UserInterface = ({ appState, displayNotificationMessage, setUserFile, setA
         }
     }
     return (
-        <ToggleButton>
+        <ToggleButton ref={blogFromRef}>
             {displayUserInterface()}
         </ToggleButton>
     )
