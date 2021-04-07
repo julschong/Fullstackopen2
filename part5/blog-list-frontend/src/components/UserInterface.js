@@ -11,19 +11,30 @@ import registerUserService from '../services/registerUserService'
 
 
 const UserInterface = ({ appState, displayNotificationMessage, setUserFile, setAppState, userFile, setBlogs, blogs }) => {
+    // states for newBlog form
     const [newTitle, setNewTitle] = useState('')
     const [newAuthor, setNewAuthor] = useState('')
     const [newURL, setNewURL] = useState('')
     const [newContent, setNewContent] = useState('')
 
+    // states for login and registration form
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [fullname, setFullName] = useState('')
 
+    // master submit button clicked method
+    // gets called by form submit from button: login, save, logout, register-screen, register 
     const submitButtonClicked = async (e) => {
         e.preventDefault();
+
+        // submitter is set to the function callers name (button name attribute)
         const submitter = e.nativeEvent.submitter.name
+
+        // execute different actions for different buttons
         switch (submitter) {
+
+            // send post to /api/login to retrieve credential then store in local storage
+            // display wrong credential if username/password is wrong
             case "login":
                 if (!username || !password) {
                     return displayNotificationMessage("username and password cannot be empty", "Red", 2000)
@@ -39,11 +50,12 @@ const UserInterface = ({ appState, displayNotificationMessage, setUserFile, setA
                     displayNotificationMessage('Logged In', "Green", 3000)
                     setAppState(LOGGED_IN)
                 } catch (err) {
-                    displayNotificationMessage(err.response.data.error, "Red", 3000)
+                    displayNotificationMessage('Wrong credentials', "Red", 3000)
                     return
                 }
                 break
 
+            // saving new Blog 
             case "save":
                 if (newTitle === '' || newAuthor === '') {
                     return displayNotificationMessage("Title and Author cannot be Empry", "Red", 3000)
@@ -65,6 +77,7 @@ const UserInterface = ({ appState, displayNotificationMessage, setUserFile, setA
                 }
                 break
 
+            // logout by deleting local storage credential
             case "logout":
                 window.localStorage.removeItem('token')
                 if (window.confirm('Are you sure you would like to log out?')) {
@@ -73,10 +86,12 @@ const UserInterface = ({ appState, displayNotificationMessage, setUserFile, setA
                 }
                 break
 
+            // set appstate to REGISTERING to display registration form
             case "register-screen":
                 setAppState(REGISTERING)
                 break
 
+            // post to /api/users to create new user, then switch appstate to NOT_LOGGED_IN to have user log in
             case "register":
                 const userForRegister = {
                     username: username,
@@ -95,6 +110,7 @@ const UserInterface = ({ appState, displayNotificationMessage, setUserFile, setA
                 setAppState(NOT_LOGGED_IN)
                 break
 
+            // back button from registration form to get back to login form
             case "back":
                 setFullName('')
                 setAppState(NOT_LOGGED_IN)
@@ -108,6 +124,8 @@ const UserInterface = ({ appState, displayNotificationMessage, setUserFile, setA
         setPassword('')
     }
 
+    // display 1 of 3 forms: login, newblog, registration form
+    // based on 3 appStates: NOT_LOGGED_IN, LOGGED_IN, REGISTERING
     const displayUserInterface = () => {
         switch (appState) {
             case NOT_LOGGED_IN:
@@ -132,7 +150,7 @@ const UserInterface = ({ appState, displayNotificationMessage, setUserFile, setA
         }
     }
     return (
-        <ToggleButton>
+        <ToggleButton appState={appState}>
             {displayUserInterface()}
         </ToggleButton>
     )
