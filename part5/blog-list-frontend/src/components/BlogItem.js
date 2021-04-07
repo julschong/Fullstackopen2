@@ -1,9 +1,10 @@
 import React from 'react'
 import Card from 'react-bootstrap/Card'
+import Button from 'react-bootstrap/Button'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './BlogItem.css'
 
-const BlogItem = ({ blog }) => {
+const BlogItem = ({ blog, userFile, deleteButtonClicked }) => {
 
     const date = new Date(blog.createdAt)
     const formattedDate = date.getFullYear() + '/' +
@@ -11,6 +12,8 @@ const BlogItem = ({ blog }) => {
         date.getDate() + ' - ' +
         date.getHours() + ':' +
         date.getMinutes()
+
+    const deleteButtonVisible = { display: blog.user.username === userFile.username ? '' : 'none' }
 
     return (
         <Card>
@@ -21,6 +24,7 @@ const BlogItem = ({ blog }) => {
                 <Card.Text className="url">{blog.url}</Card.Text>
                 <Card.Text >{formattedDate}</Card.Text>
                 <Card.Text className="likes">Likes: {blog.likes}</Card.Text>
+                <Button name={`${blog.id}`} onClick={deleteButtonClicked} style={deleteButtonVisible} variant="outline-primary">delete</Button>
             </Card.Body>
         </Card>
     )
