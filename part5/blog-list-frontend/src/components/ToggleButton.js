@@ -6,6 +6,7 @@ import './ToggleButton.css'
 const ToggleButton = React.forwardRef((prop, ref) => {
     const [visibility, setVisibility] = useState(true)
 
+    const userLoggedIn = prop.appState === 'LOGGED_IN'
     const hideWhenVisible = visibility === true ? 'none' : ''
     const showWhenVisible = visibility === true ? '' : 'none'
 
@@ -16,17 +17,23 @@ const ToggleButton = React.forwardRef((prop, ref) => {
     useImperativeHandle(ref, () => ({ toggle }))
 
     return (
-        <div className="toggle-container">
-            <div style={{ display: showWhenVisible }}>
-                <Button className="hide" variant="outline-primary" onClick={() => setVisibility(!visibility)}>hide</Button>
-                <br></br>
-                <div className="toggled">
-                    {prop.children}
-                </div>
-            </div>
-            <div style={{ display: hideWhenVisible }}>
-                <Button className="show" variant="outline-primary" onClick={() => setVisibility(!visibility)}>show</Button>
-            </div>
+        <div>
+            <>
+                <body className="toggle-container" style={{ display: showWhenVisible }}>
+                    {userLoggedIn
+                        ? <Button className="hide" variant="outline-primary" onClick={() => setVisibility(!visibility)}>hide</Button>
+                        : null}
+
+                    <div className="toggled">
+                        {prop.children}
+                    </div>
+                </body>
+                <body className="toggle-container" style={{ display: hideWhenVisible }}>
+                    {userLoggedIn
+                        ? <Button className="show" variant="outline-primary" onClick={() => setVisibility(!visibility)}>show</Button>
+                        : null}
+                </body>
+            </>
         </div>
     )
 })
