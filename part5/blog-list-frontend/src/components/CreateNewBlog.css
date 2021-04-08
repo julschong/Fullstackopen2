@@ -16,12 +16,6 @@
     position: absolute;
 }
 
-#logout-button {
-    right: 0;
-    top: -1.2vh;
-    position: absolute;
-}
-
 #content {
     height: 7rem;
 }

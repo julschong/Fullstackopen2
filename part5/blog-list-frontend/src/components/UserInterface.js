@@ -4,6 +4,7 @@ import LoginForm from '../components/LoginForm'
 import CreateNewBlog from '../components/CreateNewBlog'
 import RegisterUserForm from '../components/RegisterUserForm'
 import ToggleButton from '../components/ToggleButton'
+import Button from 'react-bootstrap/Button'
 
 import blogService from '../services/blogService'
 import loginService from '../services/loginService'
@@ -72,20 +73,11 @@ const UserInterface = ({ appState, displayNotificationMessage, setUserFile, setA
                     const blog = await blogService.createOne(newBlog, userFile.token)
                     setBlogs(blogs.concat(blog))
                     displayNotificationMessage("blog is saved succesfully", "Green", 3000)
-                    blogFromRef.current.toggle()
+                    blogFromRef.current.toggle(false)
 
                 } catch (err) {
                     displayNotificationMessage(err.message, "Red", 2000)
                     return
-                }
-                break
-
-            // logout by deleting local storage credential
-            case "logout":
-                window.localStorage.removeItem('token')
-                if (window.confirm('Are you sure you would like to log out?')) {
-                    setUserFile(null)
-                    setAppState(NOT_LOGGED_IN)
                 }
                 break
 
@@ -152,10 +144,25 @@ const UserInterface = ({ appState, displayNotificationMessage, setUserFile, setA
             default:
         }
     }
+
+    const logoutClicked = (e) => {
+        // logout by deleting local storage credential
+        window.localStorage.removeItem('token')
+        if (window.confirm('Are you sure you would like to log out?')) {
+            setUserFile(null)
+            setAppState(NOT_LOGGED_IN)
+            blogFromRef.current.toggle(true)
+        }
+    }
+
     return (
-        <ToggleButton ref={blogFromRef}>
-            {displayUserInterface()}
-        </ToggleButton>
+        <>
+            <Button id="logout-button" variant="outline-primary" style={{ display: (appState === LOGGED_IN) ? '' : 'none' }}
+                onClick={logoutClicked} name="logout">logout</Button>
+            <ToggleButton appState={appState} ref={blogFromRef}>
+                {displayUserInterface()}
+            </ToggleButton>
+        </>
     )
 }
 

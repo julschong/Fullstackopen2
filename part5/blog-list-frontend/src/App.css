@@ -3,7 +3,7 @@
 }
 
 #app-header {
-    margin: 1vw;
+    margin: 1rem;
     position: relative;
 }
 
@@ -11,4 +11,10 @@
     position: absolute;
     right: 0;
     top: 0;
+}
+
+#logout-button {
+    right: 1rem;
+    top: 3rem;
+    position: absolute;
 }

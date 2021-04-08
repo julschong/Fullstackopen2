@@ -10,8 +10,8 @@ const ToggleButton = React.forwardRef((prop, ref) => {
     const hideWhenVisible = visibility === true ? 'none' : ''
     const showWhenVisible = visibility === true ? '' : 'none'
 
-    const toggle = () => {
-        setVisibility(!visibility)
+    const toggle = (vis) => {
+        setVisibility(vis)
     }
 
     useImperativeHandle(ref, () => ({ toggle }))
@@ -19,7 +19,7 @@ const ToggleButton = React.forwardRef((prop, ref) => {
     return (
         <div>
             <>
-                <body className="toggle-container" style={{ display: showWhenVisible }}>
+                <div className="toggle-container" style={{ display: showWhenVisible }}>
                     {userLoggedIn
                         ? <Button className="hide" variant="outline-primary" onClick={() => setVisibility(!visibility)}>hide</Button>
                         : null}
@@ -27,12 +27,12 @@ const ToggleButton = React.forwardRef((prop, ref) => {
                     <div className="toggled">
                         {prop.children}
                     </div>
-                </body>
-                <body className="toggle-container" style={{ display: hideWhenVisible }}>
+                </div>
+                <div className="toggle-container" style={{ display: hideWhenVisible }}>
                     {userLoggedIn
                         ? <Button className="show" variant="outline-primary" onClick={() => setVisibility(!visibility)}>show</Button>
                         : null}
-                </body>
+                </div>
             </>
         </div>
     )

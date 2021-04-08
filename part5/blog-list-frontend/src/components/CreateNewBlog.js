@@ -34,9 +34,6 @@ const CreateNewBlog = ({ submitButtonClicked, setNewTitle, setNewAuthor, setNewU
             <Button id="clear-button" variant="outline-primary"
                 type="submit" name="clear">clear</Button>
 
-            <Button id="logout-button" variant="outline-primary"
-                type="submit" name="logout">logout</Button>
-
         </Form>
     )
 }
