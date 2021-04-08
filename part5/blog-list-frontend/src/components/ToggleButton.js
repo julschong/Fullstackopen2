@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import './ToggleButton.css'
 
 const ToggleButton = React.forwardRef((prop, ref) => {
-    ToggleButton.defaultProps = { appState: "LOGGED_IN" }
+    ToggleButton.defaultProps = { appState: 'LOGGED_IN' }
 
     const [visibility, setVisibility] = useState(true)
 
@@ -39,5 +39,7 @@ const ToggleButton = React.forwardRef((prop, ref) => {
         </div>
     )
 })
+
+ToggleButton.displayName = 'ToggleButton'
 
 export default ToggleButton

@@ -25,7 +25,7 @@ const App = () => {
     const [userFile, setUserFile] = useState(null)
 
     // state to track current displayed notification message
-    // uses 3 properties - 
+    // uses 3 properties -
     //text: text to display
     //color: color of notification
     //duration: message duration in milliseconds
@@ -109,4 +109,4 @@ const isEmpty = (object) => {
     return JSON.stringify(object) === '{}'
 }
 
-export default App;
+export default App

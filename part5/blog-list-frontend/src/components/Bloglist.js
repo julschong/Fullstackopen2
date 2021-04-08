@@ -36,7 +36,7 @@ const Bloglist = ({ blogs, userFile, setBlogs }) => {
 
     return (
         <div className="blog-list">
-            {sortedblogs.map(blog => <BlogItem key={blog.id + "-root"} blog={blog} userFile={userFile} setBlogs={setBlogs} likeButtonClicked={likeButtonClicked} deleteButtonClicked={deleteButtonClicked} />)}
+            {sortedblogs.map(blog => <BlogItem key={blog.id + '-root'} blog={blog} userFile={userFile} setBlogs={setBlogs} likeButtonClicked={likeButtonClicked} deleteButtonClicked={deleteButtonClicked} />)}
         </div>
     )
 }
