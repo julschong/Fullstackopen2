@@ -6,7 +6,7 @@ import './Bloglist.css'
 
 const Bloglist = ({ blogs, userFile, setBlogs }) => {
 
-    const sortedblogs = [...blogs].sort((a, b) => (a.id < b.id) ? 1 : -1)
+    const sortedblogs = [...blogs].sort((a, b) => (a.likes < b.likes) ? 1 : -1)
 
     const deleteButtonClicked = async (e) => {
         const blogId = e.target.name
