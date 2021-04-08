@@ -9,7 +9,7 @@
 [class='author card-title h5'] {
     text-align: right;
     position: absolute;
-    bottom: 0.5rem;
+    top: 2rem;
     right: 1rem;
 }
 
@@ -23,6 +23,22 @@
 [class='likes card-text'] {
     text-align: right;
     position: absolute;
-    top: 50%;
+    top: 75%;
+    right: 5rem;
+}
+
+[class='like-button btn btn-outline-primary'] {
+    line-height: 1rem;
+    text-align: right;
+    position: absolute;
+    top: 75%;
     right: 1rem;
+}
+
+[class='delete-button btn btn-outline-primary'] {
+    line-height: 1rem;
+}
+
+.card-text {
+    width: 90%;
 }

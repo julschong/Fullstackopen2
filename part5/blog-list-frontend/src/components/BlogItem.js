@@ -25,8 +25,8 @@ const BlogItem = ({ blog, userFile, deleteButtonClicked, likeButtonClicked }) =>
                     <Card.Text className="url">{blog.url}</Card.Text>
                     <Card.Text >{formattedDate}</Card.Text>
                     <Card.Text className="likes">Likes: {blog.likes}</Card.Text>
-                    <Button className="like-button" name={`${blog.id}`} onClick={likeButtonClicked}>like</Button>
-                    <Button name={`${blog.id}`} onClick={deleteButtonClicked} style={deleteButtonVisible} variant="outline-primary">delete</Button>
+                    <Button className="like-button" variant="outline-primary" name={`${blog.id}`} onClick={likeButtonClicked}>like</Button>
+                    <Button className="delete-button" name={`${blog.id}`} onClick={deleteButtonClicked} style={deleteButtonVisible} variant="outline-primary">delete</Button>
                 </ToggleButton>
                 <Card.Title className="author">{blog.author}</Card.Title>
 
