@@ -72,18 +72,23 @@ blogRouter.put('/:id', async (request, response) => {
 
     let newBlog = {}
 
-    if (!body.likes) {
-        newBlog = {
-            title: body.title,
-            author: body.author,
-            url: body.url,
+    try {
+        if (!body.likes) {
+            newBlog = {
+                title: body.title,
+                author: body.author,
+                url: body.url,
+            }
+            await Blog.findByIdAndUpdate(request.params.id, newBlog)
+            response.status(204).end()
+        } else {
+            await Blog.findByIdAndUpdate(request.params.id, { likes: body.likes })
+            response.status(204).end()
         }
-        await Blog.findByIdAndUpdate(request.params.id, newBlog)
-        response.status(204).end()
-    } else {
-        await Blog.findByIdAndUpdate(request.params.id, { likes: body.likes })
-        response.status(204).end()
+    } catch (err) {
+        res.status(400).json({ error: err.message })
     }
+
 
 })
 

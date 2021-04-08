@@ -5,7 +5,7 @@ import ToggleButton from './ToggleButton'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './BlogItem.css'
 
-const BlogItem = ({ blog, userFile, deleteButtonClicked }) => {
+const BlogItem = ({ blog, userFile, deleteButtonClicked, likeButtonClicked }) => {
 
     const date = new Date(blog.createdAt)
     const formattedDate = date.getFullYear() + '/' +
@@ -25,6 +25,7 @@ const BlogItem = ({ blog, userFile, deleteButtonClicked }) => {
                     <Card.Text className="url">{blog.url}</Card.Text>
                     <Card.Text >{formattedDate}</Card.Text>
                     <Card.Text className="likes">Likes: {blog.likes}</Card.Text>
+                    <Button className="like-button" name={`${blog.id}`} onClick={likeButtonClicked}>like</Button>
                     <Button name={`${blog.id}`} onClick={deleteButtonClicked} style={deleteButtonVisible} variant="outline-primary">delete</Button>
                 </ToggleButton>
                 <Card.Title className="author">{blog.author}</Card.Title>

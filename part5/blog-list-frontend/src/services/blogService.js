@@ -19,7 +19,12 @@ const deleteOne = async function (blog, token) {
     return res.data
 }
 
+const updateOne = async (blog) => {
+    const res = await axios.put(`${base_Url}/${blog.id}`, blog)
+    return res.data
+}
 
-const blogService = { getAll, createOne, deleteOne }
+
+const blogService = { getAll, createOne, deleteOne, updateOne }
 
 export default blogService
