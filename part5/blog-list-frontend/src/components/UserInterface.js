@@ -159,7 +159,7 @@ const UserInterface = ({ appState, displayNotificationMessage, setUserFile, setA
         <>
             <Button id="logout-button" variant="outline-primary" style={{ display: (appState === LOGGED_IN) ? '' : 'none' }}
                 onClick={logoutClicked} name="logout">logout</Button>
-            <ToggleButton appState={appState} ref={blogFromRef}>
+            <ToggleButton className="toggle-container" appState={appState} ref={blogFromRef}>
                 {displayUserInterface()}
             </ToggleButton>
         </>

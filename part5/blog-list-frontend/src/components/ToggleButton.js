@@ -4,6 +4,8 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import './ToggleButton.css'
 
 const ToggleButton = React.forwardRef((prop, ref) => {
+    ToggleButton.defaultProps = { appState: "LOGGED_IN" }
+
     const [visibility, setVisibility] = useState(true)
 
     const userLoggedIn = prop.appState === 'LOGGED_IN'
@@ -19,7 +21,7 @@ const ToggleButton = React.forwardRef((prop, ref) => {
     return (
         <div>
             <>
-                <div className="toggle-container" style={{ display: showWhenVisible }}>
+                <div className={prop.className} style={{ display: showWhenVisible }}>
                     {userLoggedIn
                         ? <Button className="hide" variant="outline-primary" onClick={() => setVisibility(!visibility)}>hide</Button>
                         : null}
@@ -28,7 +30,7 @@ const ToggleButton = React.forwardRef((prop, ref) => {
                         {prop.children}
                     </div>
                 </div>
-                <div className="toggle-container" style={{ display: hideWhenVisible }}>
+                <div className={prop.className} style={{ display: hideWhenVisible }}>
                     {userLoggedIn
                         ? <Button className="show" variant="outline-primary" onClick={() => setVisibility(!visibility)}>show</Button>
                         : null}
