@@ -41,7 +41,6 @@ const reducer = (state = initialState, action) => {
 
 //actions
   export const vote = (id) => {
-    console.log('vote', id)
     return {
       type: "Upvote",
       data: {id: id}
