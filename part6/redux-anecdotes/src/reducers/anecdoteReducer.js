@@ -35,10 +35,25 @@ const reducer = (state = initialState, action) => {
       break;
     default:
   }
-  console.log(nextState)
-  nextState.sort((a,b)=>a.votes < b.votes ? 1: -1)
-  console.log(nextState)
+  nextState.sort((a,b)=>b.votes - a.votes)
   return nextState
 }
+
+//actions
+  export const vote = (id) => {
+    console.log('vote', id)
+    return {
+      type: "Upvote",
+      data: {id: id}
+    }
+  }
+
+  export const createNewAnecdote = (content) => {
+    return {
+      type: "addNew",
+      data: content
+    }
+  }
+
 
 export default reducer
