@@ -28,6 +28,8 @@ const reducer = (state = initialState, action) => {
       const oldAnecdote = state.find(anecdote=>anecdote.id===anecdoteId)
       const newAnecdote = {...oldAnecdote, votes: oldAnecdote.votes + 1}
       return [newAnecdote, ...state.filter(anecdote=>anecdote.id!==anecdoteId)]
+    case "addNew":
+      return [asObject(action.data), ...state]
     default:
   }
 
