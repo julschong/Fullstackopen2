@@ -10,8 +10,15 @@ import blogService from '../services/blogService'
 import loginService from '../services/loginService'
 import registerUserService from '../services/registerUserService'
 
-
-const UserInterface = ({ appState, displayNotificationMessage, setUserFile, setAppState, userFile, setBlogs, blogs }) => {
+const UserInterface = ({
+    appState,
+    displayNotificationMessage,
+    setUserFile,
+    setAppState,
+    userFile,
+    setBlogs,
+    blogs,
+}) => {
     // states for newBlog form
     const [newTitle, setNewTitle] = useState('')
     const [newAuthor, setNewAuthor] = useState('')
@@ -34,35 +41,41 @@ const UserInterface = ({ appState, displayNotificationMessage, setUserFile, setA
 
         const userInfo = {
             username: username,
-            password: password
+            password: password,
         }
 
         const newBlog = {
             title: newTitle,
             author: newAuthor,
             url: newURL || 'no url',
-            content: newContent || 'no content'
+            content: newContent || 'no content',
         }
 
         const userForRegister = {
             username: username,
             password: password,
-            name: fullname
+            name: fullname,
         }
         // execute different actions for different buttons
         switch (submitter) {
-
         // send post to /api/login to retrieve credential then store in local storage
         // display wrong credential if username/password is wrong
         case 'login':
-            if (!username || !password) {
-                return displayNotificationMessage('username and password cannot be empty', 'Red', 2000)
+            if (username === '' || password === '') {
+                return displayNotificationMessage(
+                    'username and password cannot be empty',
+                    'Red',
+                    2000
+                )
             }
 
             try {
                 const credential = await loginService.login(userInfo)
                 setUserFile(credential)
-                window.localStorage.setItem('token', JSON.stringify(credential))
+                window.localStorage.setItem(
+                    'token',
+                    JSON.stringify(credential)
+                )
                 displayNotificationMessage('Logged In', 'Green', 3000)
                 setAppState(LOGGED_IN)
             } catch (err) {
@@ -74,15 +87,25 @@ const UserInterface = ({ appState, displayNotificationMessage, setUserFile, setA
             // saving new Blog
         case 'save':
             if (newTitle === '' || newAuthor === '') {
-                return displayNotificationMessage('Title and Author cannot be Empty', 'Red', 3000)
+                return displayNotificationMessage(
+                    'Title and Author cannot be Empty',
+                    'Red',
+                    3000
+                )
             }
 
             try {
-                const blog = await blogService.createOne(newBlog, userFile.token)
+                const blog = await blogService.createOne(
+                    newBlog,
+                    userFile.token
+                )
                 setBlogs(blogs.concat(blog))
-                displayNotificationMessage('blog is saved succesfully', 'Green', 3000)
+                displayNotificationMessage(
+                    'blog is saved succesfully',
+                    'Green',
+                    3000
+                )
                 blogFromRef.current.toggle(false)
-
             } catch (err) {
                 displayNotificationMessage(err.message, 'Red', 2000)
                 return
@@ -97,12 +120,30 @@ const UserInterface = ({ appState, displayNotificationMessage, setUserFile, setA
             // post to /api/users to create new user, then switch appstate to NOT_LOGGED_IN to have user log in
         case 'register':
 
+            if (!username || !password) {
+                displayNotificationMessage('username or password cannot be empty', 'Red', 3000)
+                return
+            } else if (username.legnth < 3) {
+                displayNotificationMessage('username must contain at least 3 characters', 'Red', 3000)
+                return
+            } else if (!password.match('^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,32}$')) {
+                displayNotificationMessage('password must contain 8-32 chars and at least 1 lowercase, 1 uppercase, and 1 number', 'Red', 5000)
+                return
+            }
+
             try {
                 await registerUserService.registerUser(userForRegister)
-                displayNotificationMessage('Successfully Registered, Please Log in', 'Green', 3000)
-
+                displayNotificationMessage(
+                    'Successfully Registered, Please Log in',
+                    'Green',
+                    3000
+                )
             } catch (err) {
-                displayNotificationMessage(JSON.stringify(err.response.data.error), 'Red', 5000)
+                displayNotificationMessage(
+                    JSON.stringify(err.response.data.error),
+                    'Red',
+                    5000
+                )
                 return
             }
             setFullName('')
@@ -116,7 +157,6 @@ const UserInterface = ({ appState, displayNotificationMessage, setUserFile, setA
             break
 
         default:
-
         }
         e.target.reset()
         setUsername('')
@@ -128,23 +168,35 @@ const UserInterface = ({ appState, displayNotificationMessage, setUserFile, setA
     const displayUserInterface = () => {
         switch (appState) {
         case NOT_LOGGED_IN:
-            return (<LoginForm className="login-form"
-                submitButtonClicked={submitButtonClicked}
-                setUsername={setUsername}
-                setPassword={setPassword} />)
+            return (
+                <LoginForm
+                    className="login-form"
+                    submitButtonClicked={submitButtonClicked}
+                    setUsername={setUsername}
+                    setPassword={setPassword}
+                />
+            )
         case LOGGED_IN:
-            return (<CreateNewBlog className="newBlog"
-                submitButtonClicked={submitButtonClicked}
-                setNewTitle={setNewTitle}
-                setNewAuthor={setNewAuthor}
-                setNewURL={setNewURL}
-                setNewContent={setNewContent} />)
+            return (
+                <CreateNewBlog
+                    className="newBlog"
+                    submitButtonClicked={submitButtonClicked}
+                    setNewTitle={setNewTitle}
+                    setNewAuthor={setNewAuthor}
+                    setNewURL={setNewURL}
+                    setNewContent={setNewContent}
+                />
+            )
         case REGISTERING:
-            return (<RegisterUserForm className="register-form"
-                submitButtonClicked={submitButtonClicked}
-                setUsername={setUsername}
-                setPassword={setPassword}
-                setFullName={setFullName} />)
+            return (
+                <RegisterUserForm
+                    className="register-form"
+                    submitButtonClicked={submitButtonClicked}
+                    setUsername={setUsername}
+                    setPassword={setPassword}
+                    setFullName={setFullName}
+                />
+            )
         default:
         }
     }
@@ -161,9 +213,20 @@ const UserInterface = ({ appState, displayNotificationMessage, setUserFile, setA
 
     return (
         <>
-            <Button id="logout-button" variant="outline-primary" style={{ display: (appState === LOGGED_IN) ? '' : 'none' }}
-                onClick={logoutClicked} name="logout">logout</Button>
-            <ToggleButton className="toggle-container" appState={appState} ref={blogFromRef}>
+            <Button
+                id="logout-button"
+                variant="outline-primary"
+                style={{ display: appState === LOGGED_IN ? '' : 'none' }}
+                onClick={logoutClicked}
+                name="logout"
+            >
+                logout
+            </Button>
+            <ToggleButton
+                className="toggle-container"
+                appState={appState}
+                ref={blogFromRef}
+            >
                 {displayUserInterface()}
             </ToggleButton>
         </>
