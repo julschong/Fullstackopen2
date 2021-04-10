@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { createNewAnecdote } from '../reducers/anecdoteReducer'
-import { setNotification } from '../reducers/notificationReducer'
+import { displayNotification } from '../utils/notificationHelper'
 
 const AnecdoteForm = () => {
     const dispatch = useDispatch()
@@ -12,17 +12,13 @@ const AnecdoteForm = () => {
         const content = event.target.newAnecdote.value
         event.target.reset()
         dispatch(createNewAnecdote(content))
-        displayNotification('New note added', 'Green', 3000)
-    }
-
-    const displayNotification = (message, color, duration) => {
-        if (JSON.stringify(notification) !== '{}') {
-            clearTimeout(notification.timeoutId)
-        }
-        const timeoutId = setTimeout(() => {
-            dispatch(setNotification())
-        }, duration)
-        dispatch(setNotification(message, color, timeoutId))
+        displayNotification(
+            notification,
+            dispatch,
+            'New note added',
+            'Green',
+            3000
+        )
     }
 
     return (

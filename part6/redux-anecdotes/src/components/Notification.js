@@ -7,14 +7,13 @@ const Notification = () => {
     const style = {
         border: `solid ${notification.color} 1px`,
         color: notification.color,
-        lineHeight: "5px",
-        borderRadius: "5px"
+        borderRadius: "5px",
     }
     return (
         <>
             {(JSON.stringify(notification) !== '{}') ? (
                 <div style={style}>
-                    <h2>{notification.message}</h2>
+                    <p>{notification.message}</p>
                 </div>
             ) : null}
         </>
