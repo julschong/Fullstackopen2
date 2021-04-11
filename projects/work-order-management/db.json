@@ -1,0 +1,25 @@
+{
+    "workOrders": [
+        {
+            "id": 1,
+            "number": "WO001",
+            "assembly": "4-1334",
+            "quantity": 200,
+            "dueDate": "June 6, 2021"
+        },
+        {
+            "id": 2,
+            "number": "WO002",
+            "assembly": "4-1336",
+            "quantity": 100,
+            "dueDate": "June 20, 2021"
+        },
+        {
+            "id": 3,
+            "number": "WO003",
+            "assembly": "4-1430",
+            "quantity": 100,
+            "dueDate": "June 30, 2021"
+        }
+    ]
+}
