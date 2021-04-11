@@ -17,3 +17,8 @@
     width: 45%;
     position: absolute;
 }
+
+#pw-rule {
+    font-size: 0.75rem;
+    line-height: 0.8rem;
+}

@@ -9,9 +9,10 @@ const AnecdoteForm = () => {
 
     const addAnecdote = (event) => {
         event.preventDefault()
+
         const content = event.target.newAnecdote.value
-        event.target.reset()
         dispatch(createNewAnecdote(content))
+
         displayNotification(
             notification,
             dispatch,
@@ -19,6 +20,7 @@ const AnecdoteForm = () => {
             'Green',
             3000
         )
+        event.target.reset()
     }
 
     return (

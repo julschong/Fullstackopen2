@@ -1,58 +1,74 @@
-const anecdotesAtStart = [
-  'If it hurts, do it more often',
-  'Adding manpower to a late software project makes it later!',
-  'The first 90 percent of the code accounts for the first 90 percent of the development time...The remaining 10 percent of the code accounts for the other 90 percent of the development time.',
-  'Any fool can write code that a computer can understand. Good programmers write code that humans can understand.',
-  'Premature optimization is the root of all evil.',
-  'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.'
-]
+import anecdoteService from '../services/anecdoteService'
 
 const getId = () => (100000 * Math.random()).toFixed(0)
 
 const asObject = (anecdote) => {
-  return {
-    content: anecdote,
-    id: getId(),
-    votes: 0
-  }
+    return {
+        content: anecdote,
+        id: getId(),
+        votes: 0,
+    }
 }
 
-const initialState = anecdotesAtStart.map(asObject)
+const initialState = []
 
 const anecdoteReducer = (state = initialState, action) => {
+    let nextState = [...state]
 
-  let nextState = [...state]
-
-  switch (action.type) {
-    case "Upvote":
-      const anecdoteId = action.data.id
-      const oldAnecdote = state.find(anecdote=>anecdote.id===anecdoteId)
-      const newAnecdote = {...oldAnecdote, votes: oldAnecdote.votes + 1}
-      nextState = [newAnecdote, ...state.filter(anecdote=>anecdote.id!==anecdoteId)]
-      break;
-    case "addNew":
-      nextState = [asObject(action.data), ...state]
-      break;
-    default:
-  }
-  nextState.sort((a,b)=>b.votes - a.votes)
-  return nextState
+    switch (action.type) {
+        case 'UPVOTE':
+            const anecdoteId = action.data.id
+            const newAnecdote = action.data
+            nextState = [
+                newAnecdote,
+                ...state.filter((anecdote) => anecdote.id !== anecdoteId),
+            ]
+            break
+        case 'ADD_NEW':
+            nextState = [action.data, ...state]
+            break
+        case 'INITIALIZE':
+            nextState = action.data
+            break
+        default:
+    }
+    nextState.sort((a, b) => b.votes - a.votes)
+    return nextState
 }
 
 //actions
-  export const vote = (id) => {
-    return {
-      type: "Upvote",
-      data: {id: id}
-    }
-  }
+export const vote = (id) => {
+    return async (dispatch) => {
+        const anecdote = await anecdoteService.getOne(id)
+        const toUpdate = { ...anecdote, votes: anecdote.votes + 1 }
+        await anecdoteService.updateOne(toUpdate)
 
-  export const createNewAnecdote = (content) => {
-    return {
-      type: "addNew",
-      data: content
+        dispatch({
+            type: 'UPVOTE',
+            data: toUpdate,
+        })
     }
-  }
+}
 
+export const createNewAnecdote = (content) => {
+    return async (dispatch) => {
+        const newAnecdote = await anecdoteService.createOne(content)
+        console.log(newAnecdote)
+        dispatch({
+            type: 'ADD_NEW',
+            data: newAnecdote,
+        })
+    }
+}
+
+export const initializeAnecdotes = () => {
+    return async (dispatch) => {
+        const anecdotes = await anecdoteService.getAll()
+        dispatch({
+            type: 'INITIALIZE',
+            data: anecdotes,
+        })
+    }
+}
 
 export default anecdoteReducer
