@@ -79,56 +79,67 @@ const Footer = () => (
     </div>
 )
 
+// custom hook for forms
+const useField = (type) => {
+    const [value, setValue] = useState('')
+
+    const onChange = (event) => {
+        setValue(event.target.value)
+    }
+
+    const onReset = (event) => {
+        setValue('')
+    }
+
+    return { type, value, onChange, onReset }
+}
+
 const CreateNew = (props) => {
     const history = useHistory()
-    const [content, setContent] = useState('')
-    const [author, setAuthor] = useState('')
-    const [info, setInfo] = useState('')
+    const content = useField('text')
+    const author = useField('text')
+    const info = useField('text')
 
     const handleSubmit = (e) => {
         e.preventDefault()
         props.addNew({
-            content,
-            author,
-            info,
+            content: content.value,
+            author: author.value,
+            info: info.value,
             votes: 0,
         })
         history.push('/anecdotes')
-        props.setNotification(`${content} created!`)
+        props.setNotification(`${content.value} created!`)
         setTimeout(() => {
             props.setNotification('')
         }, 10000)
     }
 
+    const handleReset = (e) => {
+        e.preventDefault()
+        content.onReset()
+        author.onReset()
+        info.onReset()
+    }
+
     return (
         <div>
             <h2>create a new anecdote</h2>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} onReset={handleReset}>
                 <div>
                     content
-                    <input
-                        name="content"
-                        value={content}
-                        onChange={(e) => setContent(e.target.value)}
-                    />
+                    <input {...content} />
                 </div>
                 <div>
                     author
-                    <input
-                        name="author"
-                        value={author}
-                        onChange={(e) => setAuthor(e.target.value)}
-                    />
+                    <input {...author} />
                 </div>
                 <div>
                     url for more info
-                    <input
-                        name="info"
-                        value={info}
-                        onChange={(e) => setInfo(e.target.value)}
-                    />
+                    <input {...info} />
                 </div>
-                <button>create</button>
+                <button type="submit">create</button>
+                <button type="reset">reset</button>
             </form>
         </div>
     )
