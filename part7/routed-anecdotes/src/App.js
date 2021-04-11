@@ -1,5 +1,11 @@
 import React, { useState } from 'react'
-import { Switch, Route, Link, useRouteMatch } from 'react-router-dom'
+import {
+    useHistory,
+    Switch,
+    Route,
+    Link,
+    useRouteMatch,
+} from 'react-router-dom'
 import Anecdote from './components/Anecdote'
 
 const Menu = () => {
@@ -74,6 +80,7 @@ const Footer = () => (
 )
 
 const CreateNew = (props) => {
+    const history = useHistory()
     const [content, setContent] = useState('')
     const [author, setAuthor] = useState('')
     const [info, setInfo] = useState('')
@@ -86,6 +93,11 @@ const CreateNew = (props) => {
             info,
             votes: 0,
         })
+        history.push('/anecdotes')
+        props.setNotification(`${content} created!`)
+        setTimeout(() => {
+            props.setNotification('')
+        }, 10000)
     }
 
     return (
@@ -169,6 +181,7 @@ const App = () => {
         <div>
             <h1>Software anecdotes</h1>
             <Menu />
+            {notification}
             <Switch>
                 <Route path="/anecdotes/:id">
                     <Anecdote anecdoteById={anecdoteById} />
@@ -181,7 +194,10 @@ const App = () => {
                     <About />
                 </Route>
                 <Route path="/create">
-                    <CreateNew addNew={addNew} />
+                    <CreateNew
+                        addNew={addNew}
+                        setNotification={setNotification}
+                    />
                 </Route>
             </Switch>
             <Footer />
