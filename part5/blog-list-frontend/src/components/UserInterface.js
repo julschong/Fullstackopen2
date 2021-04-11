@@ -63,7 +63,7 @@ const UserInterface = ({
         case 'login':
             if (username === '' || password === '') {
                 return displayNotificationMessage(
-                    'username and password cannot be empty',
+                    'username, password cannot be empty',
                     'Red',
                     2000
                 )
@@ -120,8 +120,8 @@ const UserInterface = ({
             // post to /api/users to create new user, then switch appstate to NOT_LOGGED_IN to have user log in
         case 'register':
 
-            if (!username || !password) {
-                displayNotificationMessage('username or password cannot be empty', 'Red', 3000)
+            if (!username || !password || !fullname) {
+                displayNotificationMessage('username, password, screen name cannot be empty', 'Red', 3000)
                 return
             } else if (username.legnth < 3) {
                 displayNotificationMessage('username must contain at least 3 characters', 'Red', 3000)
@@ -140,7 +140,7 @@ const UserInterface = ({
                 )
             } catch (err) {
                 displayNotificationMessage(
-                    JSON.stringify(err.response.data.error),
+                    'User name must be unique',
                     'Red',
                     5000
                 )
