@@ -6,20 +6,18 @@ import RegisterUserForm from '../components/RegisterUserForm'
 import ToggleButton from '../components/ToggleButton'
 import Button from 'react-bootstrap/Button'
 
-import blogService from '../services/blogService'
 import loginService from '../services/loginService'
 import registerUserService from '../services/registerUserService'
 
 import { useDispatch } from 'react-redux'
 import { setNotification } from '../reducers/notificationReducer'
+import { addBlog } from '../reducers/blogReducer'
 
 const UserInterface = ({
     appState,
     setUserFile,
     setAppState,
     userFile,
-    setBlogs,
-    blogs,
 }) => {
     const dispatch = useDispatch()
 
@@ -103,11 +101,7 @@ const UserInterface = ({
             }
 
             try {
-                const blog = await blogService.createOne(
-                    newBlog,
-                    userFile.token
-                )
-                setBlogs(blogs.concat(blog))
+                dispatch(addBlog(newBlog, userFile))
                 displayNotification(
                     'blog is saved succesfully',
                     'Green',

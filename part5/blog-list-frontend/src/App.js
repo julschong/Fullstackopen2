@@ -1,11 +1,8 @@
 import './App.css'
 import React, { useState, useEffect } from 'react'
 
-import blogService from './services/blogService'
-
 import BlogList from './components/Bloglist'
 import Notification from './components/Notification'
-
 
 import { LOGGED_IN, NOT_LOGGED_IN } from './utils/appStates'
 
@@ -13,9 +10,13 @@ import Tabs from 'react-bootstrap/Tabs'
 import Tab from 'react-bootstrap/Tab'
 import UserInterface from './components/UserInterface'
 
-
+import { useDispatch, useSelector } from 'react-redux'
+import { initBlogs } from './reducers/blogReducer'
 
 const App = () => {
+
+    // get dispatch handle
+    const dispatch = useDispatch()
 
     // appState uses constants from appState.js to determine state of the app.
     const [appState, setAppState] = useState(NOT_LOGGED_IN)
@@ -23,14 +24,10 @@ const App = () => {
     // state to track user login object - token, username, name
     const [userFile, setUserFile] = useState(null)
 
-    // state to track current displayed notification message
-    // uses 3 properties -
-    //text: text to display
-    //color: color of notification
-    //duration: message duration in milliseconds
-
     // state to track blogs to be fetched, set, updated, displayed
-    const [blogs, setBlogs] = useState([])
+    // useRedux blogReducer
+    const blogs = useSelector(state => state.blogs)
+    // const [blogs, setBlogs] = useState([])
 
     // 1. initial fetch to get login info from browser local storage
     //      if success, set userFile and set appState to LOGGED_IN
@@ -42,10 +39,7 @@ const App = () => {
             setUserFile(user)
             setAppState(LOGGED_IN)
         }
-
-        blogService.getAll().then(blogs => {
-            setBlogs(blogs)
-        })
+        dispatch(initBlogs())
     }, [])
 
     return (
@@ -66,13 +60,11 @@ const App = () => {
                         setUserFile={setUserFile}
                         setAppState={setAppState}
                         userFile={userFile}
-                        setBlogs={setBlogs}
-                        blogs={blogs}
                     />
 
                     {/* only display blogs when LOGGED IN */}
                     {appState === LOGGED_IN
-                        ? <BlogList blogs={blogs} userFile={userFile} setBlogs={setBlogs} />
+                        ? <BlogList blogs={blogs} userFile={userFile} />
                         : null}
 
                 </Tab>
