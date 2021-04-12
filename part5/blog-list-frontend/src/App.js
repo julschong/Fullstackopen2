@@ -55,7 +55,7 @@ const App = () => {
                         : null}
 
                 </Tab>
-                <Tab eventKey="profile" title="Profile">
+                <Tab eventKey="users" title="Users">
                 </Tab>
             </Tabs>
         </div >
