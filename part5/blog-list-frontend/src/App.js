@@ -1,4 +1,3 @@
-import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.css'
 import React, { useState, useEffect } from 'react'
 
@@ -16,8 +15,8 @@ import UserInterface from './components/UserInterface'
 
 
 
-
 const App = () => {
+
     // appState uses constants from appState.js to determine state of the app.
     const [appState, setAppState] = useState(NOT_LOGGED_IN)
 
@@ -29,7 +28,6 @@ const App = () => {
     //text: text to display
     //color: color of notification
     //duration: message duration in milliseconds
-    const [notificationMessage, setNotificationMessage] = useState({})
 
     // state to track blogs to be fetched, set, updated, displayed
     const [blogs, setBlogs] = useState([])
@@ -50,22 +48,6 @@ const App = () => {
         })
     }, [])
 
-    // function to display Notification Message
-    const displayNotificationMessage = (text, color, duration) => {
-        // check to see if any existing message exists.
-        // if so, clear it, then display new message
-        if (!isEmpty(notificationMessage)) {
-            setNotificationMessage({})
-            clearTimeout(notificationMessage.timeout)
-        }
-
-        const timeOutNumber = setTimeout(() => {
-            setNotificationMessage({})
-        }, duration)
-        setNotificationMessage({ text: text, color: color, timeout: timeOutNumber })
-
-    }
-
     return (
         <div className="App">
             <header id="app-header">
@@ -75,15 +57,12 @@ const App = () => {
             <Tabs defaultActiveKey="home" id="uncontrolled-tab-example">
                 <Tab eventKey="home" title="Home">
                     {/* display notificationMessage if not empty */}
-                    {isEmpty(notificationMessage)
-                        ? null
-                        : <Notification text={notificationMessage.text} color={notificationMessage.color} />}
+                    <Notification />
 
                     {/* UserInterface: LoginForm or RegistrationForm or NewBlogForm will display
                             depending on appState */}
                     <UserInterface
                         appState={appState}
-                        displayNotificationMessage={displayNotificationMessage}
                         setUserFile={setUserFile}
                         setAppState={setAppState}
                         userFile={userFile}
@@ -102,11 +81,6 @@ const App = () => {
             </Tabs>
         </div >
     )
-}
-
-// helper method to check for empty object
-const isEmpty = (object) => {
-    return JSON.stringify(object) === '{}'
 }
 
 export default App

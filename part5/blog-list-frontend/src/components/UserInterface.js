@@ -10,15 +10,23 @@ import blogService from '../services/blogService'
 import loginService from '../services/loginService'
 import registerUserService from '../services/registerUserService'
 
+import { useDispatch } from 'react-redux'
+import { setNotification } from '../reducers/notificationReducer'
+
 const UserInterface = ({
     appState,
-    displayNotificationMessage,
     setUserFile,
     setAppState,
     userFile,
     setBlogs,
     blogs,
 }) => {
+    const dispatch = useDispatch()
+
+    const displayNotification = (message, color,duration) => {
+        dispatch(setNotification(message, color,duration))
+    }
+
     // states for newBlog form
     const [newTitle, setNewTitle] = useState('')
     const [newAuthor, setNewAuthor] = useState('')
@@ -62,7 +70,7 @@ const UserInterface = ({
         // display wrong credential if username/password is wrong
         case 'login':
             if (username === '' || password === '') {
-                return displayNotificationMessage(
+                return displayNotification(
                     'username, password cannot be empty',
                     'Red',
                     2000
@@ -76,10 +84,10 @@ const UserInterface = ({
                     'token',
                     JSON.stringify(credential)
                 )
-                displayNotificationMessage('Logged In', 'Green', 3000)
+                displayNotification('Logged In', 'Green', 3000)
                 setAppState(LOGGED_IN)
             } catch (err) {
-                displayNotificationMessage('Wrong credentials', 'Red', 3000)
+                displayNotification('Wrong credentials', 'Red', 3000)
                 return
             }
             break
@@ -87,7 +95,7 @@ const UserInterface = ({
             // saving new Blog
         case 'save':
             if (newTitle === '' || newAuthor === '') {
-                return displayNotificationMessage(
+                return displayNotification(
                     'Title and Author cannot be Empty',
                     'Red',
                     3000
@@ -100,14 +108,14 @@ const UserInterface = ({
                     userFile.token
                 )
                 setBlogs(blogs.concat(blog))
-                displayNotificationMessage(
+                displayNotification(
                     'blog is saved succesfully',
                     'Green',
                     3000
                 )
                 blogFromRef.current.toggle(false)
             } catch (err) {
-                displayNotificationMessage(err.message, 'Red', 2000)
+                displayNotification(err.message, 'Red', 2000)
                 return
             }
             break
@@ -121,25 +129,25 @@ const UserInterface = ({
         case 'register':
 
             if (!username || !password || !fullname) {
-                displayNotificationMessage('username, password, screen name cannot be empty', 'Red', 3000)
+                displayNotification('username, password, screen name cannot be empty', 'Red', 3000)
                 return
             } else if (username.legnth < 3) {
-                displayNotificationMessage('username must contain at least 3 characters', 'Red', 3000)
+                displayNotification('username must contain at least 3 characters', 'Red', 3000)
                 return
             } else if (!password.match('^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,32}$')) {
-                displayNotificationMessage('password must contain 8-32 chars and at least 1 lowercase, 1 uppercase, and 1 number', 'Red', 5000)
+                displayNotification('password must contain 8-32 chars and at least 1 lowercase, 1 uppercase, and 1 number', 'Red', 5000)
                 return
             }
 
             try {
                 await registerUserService.registerUser(userForRegister)
-                displayNotificationMessage(
+                displayNotification(
                     'Successfully Registered, Please Log in',
                     'Green',
                     3000
                 )
             } catch (err) {
-                displayNotificationMessage(
+                displayNotification(
                     'User name must be unique',
                     'Red',
                     5000

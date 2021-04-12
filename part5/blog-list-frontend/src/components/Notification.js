@@ -1,10 +1,20 @@
 import React from 'react'
 import './Notification.css'
+import { useSelector } from 'react-redux'
+import { isEmpty } from '../utils/helper'
 
 
-const Notification = ({ text, color }) => {
+const Notification = () => {
+    const notification = useSelector(state => state.notification)
     return (
-        <h3 className="error" style={{ color: color, borderColor: color }}> {text}</h3 >
+        <>
+            {isEmpty(notification)
+                ? null
+                : <h3 className="error"
+                    style={{ color: notification.color, borderColor: notification.color }}>
+                    {notification.message}
+                </h3 >}
+        </>
     )
 }
 
