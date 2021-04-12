@@ -4,8 +4,10 @@ import Button from 'react-bootstrap/Button'
 import ToggleButton from './ToggleButton'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './BlogItem.css'
+import { useSelector } from 'react-redux'
 
-const BlogItem = ({ blog, userFile, deleteButtonClicked, likeButtonClicked }) => {
+const BlogItem = ({ blog, deleteButtonClicked, likeButtonClicked }) => {
+    const userFile = useSelector(state => state.userFile)
 
     const date = new Date(blog.createdAt)
     const formattedDate = date.getFullYear() + '/' +
@@ -14,7 +16,10 @@ const BlogItem = ({ blog, userFile, deleteButtonClicked, likeButtonClicked }) =>
         date.getHours() + ':' +
         date.getMinutes()
 
-    const deleteButtonVisible = { display: blog.user.username === userFile.username ? '' : 'none' }
+    const deleteButtonVisible =
+    userFile
+        ? { display: blog.user.username === userFile.username ? '' : 'none' }:
+        null
 
     return (
         <Card>

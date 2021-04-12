@@ -9,11 +9,13 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 
 import notificationReducer from './reducers/notificationReducer'
 import blogReducer from './reducers/blogReducer'
+import userReducer from './reducers/userReducer'
 
 
 const reducers = combineReducers({
     notification: notificationReducer,
-    blogs: blogReducer
+    blogs: blogReducer,
+    userFile: userReducer
 })
 
 const store = createStore(reducers, composeWithDevTools(applyMiddleware(thunk)))

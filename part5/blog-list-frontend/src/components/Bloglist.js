@@ -7,9 +7,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import { deleteBlog, likeBlog } from '../reducers/blogReducer'
 
 
-const Bloglist = ({ userFile }) => {
+const Bloglist = () => {
     const dispatch = useDispatch()
     const blogs = useSelector(state => state.blogs)
+    const userFile = useSelector(state => state.userFile)
 
     const sortedblogs = [...blogs].sort((a, b) => (a.likes < b.likes) ? 1 : -1)
 
@@ -25,7 +26,7 @@ const Bloglist = ({ userFile }) => {
 
     return (
         <div className="blog-list">
-            {sortedblogs.map(blog => <BlogItem key={blog.id + '-root'} blog={blog} userFile={userFile} likeButtonClicked={likeButtonClicked} deleteButtonClicked={deleteButtonClicked} />)}
+            {sortedblogs.map(blog => <BlogItem key={blog.id + '-root'} blog={blog} likeButtonClicked={likeButtonClicked} deleteButtonClicked={deleteButtonClicked} />)}
         </div>
     )
 }

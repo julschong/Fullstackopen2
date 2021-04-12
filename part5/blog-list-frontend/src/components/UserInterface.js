@@ -6,24 +6,26 @@ import RegisterUserForm from '../components/RegisterUserForm'
 import ToggleButton from '../components/ToggleButton'
 import Button from 'react-bootstrap/Button'
 
-import loginService from '../services/loginService'
 import registerUserService from '../services/registerUserService'
 
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { setNotification } from '../reducers/notificationReducer'
 import { addBlog } from '../reducers/blogReducer'
+import { login, logout } from '../reducers/userReducer'
+
+
 
 const UserInterface = ({
     appState,
-    setUserFile,
     setAppState,
-    userFile,
 }) => {
     const dispatch = useDispatch()
 
     const displayNotification = (message, color,duration) => {
         dispatch(setNotification(message, color,duration))
     }
+
+    const userFile = useSelector(state => state.userFile)
 
     // states for newBlog form
     const [newTitle, setNewTitle] = useState('')
@@ -76,12 +78,7 @@ const UserInterface = ({
             }
 
             try {
-                const credential = await loginService.login(userInfo)
-                setUserFile(credential)
-                window.localStorage.setItem(
-                    'token',
-                    JSON.stringify(credential)
-                )
+                dispatch(login(userInfo))
                 displayNotification('Logged In', 'Green', 3000)
                 setAppState(LOGGED_IN)
             } catch (err) {
@@ -207,7 +204,7 @@ const UserInterface = ({
         // logout by deleting local storage credential
         window.localStorage.removeItem('token')
         if (window.confirm('Are you sure you would like to log out?')) {
-            setUserFile(null)
+            dispatch(logout())
             setAppState(NOT_LOGGED_IN)
             blogFromRef.current.toggle(true)
         }
