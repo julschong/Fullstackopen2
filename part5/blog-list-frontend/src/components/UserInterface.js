@@ -11,7 +11,8 @@ import registerUserService from '../services/registerUserService'
 import { useDispatch, useSelector } from 'react-redux'
 import { setNotification } from '../reducers/notificationReducer'
 import { addBlog } from '../reducers/blogReducer'
-import { login, logout } from '../reducers/userReducer'
+import { login, logout } from '../reducers/loginReducer'
+import { getUsers } from '../reducers/userReducer'
 
 
 
@@ -137,6 +138,7 @@ const UserInterface = ({
                     'Green',
                     3000
                 )
+                dispatch(getUsers())
             } catch (err) {
                 displayNotification(
                     'User name must be unique',

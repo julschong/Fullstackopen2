@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react'
 
 import BlogList from './components/Bloglist'
 import Notification from './components/Notification'
+import User from './components/Users'
 
 import { LOGGED_IN, NOT_LOGGED_IN } from './utils/appStates'
 
@@ -12,7 +13,7 @@ import UserInterface from './components/UserInterface'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { initBlogs } from './reducers/blogReducer'
-import { setUserFile } from './reducers/userReducer'
+import { setUserFile } from './reducers/loginReducer'
 
 const App = () => {
 
@@ -56,6 +57,7 @@ const App = () => {
 
                 </Tab>
                 <Tab eventKey="users" title="Users">
+                    <User />
                 </Tab>
             </Tabs>
         </div >
