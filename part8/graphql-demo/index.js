@@ -107,6 +107,7 @@ const typeDefs = gql`
             published: Int!
             genres: [String]
         ): Book!
+        editAuthor(name: String!, setBornTo: Int!): Author
     }
 `
 const resolvers = {
@@ -157,6 +158,26 @@ const resolvers = {
             }
             books.push(book)
             return book
+        },
+        editAuthor: (root, args) => {
+            if (!(args.name && args.setBornTo)) {
+                throw new UserInputError('name and setBornTo cannot be empty')
+            }
+            const foundAuthor = authors.find(
+                (author) => author.name === args.name
+            )
+            if (!foundAuthor) {
+                return null
+            }
+            const modifiedAuthor = { ...foundAuthor, born: args.setBornTo }
+            authors = authors.map((author) => {
+                if (author.id === foundAuthor.id) {
+                    return modifiedAuthor
+                } else {
+                    return author
+                }
+            })
+            return modifiedAuthor
         },
     },
 }
