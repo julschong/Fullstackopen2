@@ -1,5 +1,6 @@
-const { ApolloServer, gql } = require('apollo-server')
+const { ApolloServer, UserInputError, gql } = require('apollo-server')
 const _ = require('lodash')
+const uuid = require('uuid')
 
 let authors = [
     {
@@ -89,7 +90,7 @@ const typeDefs = gql`
     }
     type Author {
         name: String!
-        born: Int!
+        born: Int
         id: ID!
         bookCount: Int!
     }
@@ -98,6 +99,14 @@ const typeDefs = gql`
         allAuthors: [Author!]!
         bookCount: Int!
         authorCount: Int!
+    }
+    type Mutation {
+        addBook(
+            title: String!
+            author: String!
+            published: Int!
+            genres: [String]
+        ): Book!
     }
 `
 const resolvers = {
@@ -128,6 +137,27 @@ const resolvers = {
                     ).length,
                 }
             }),
+    },
+    Mutation: {
+        addBook: (root, args) => {
+            if (!(args.title && args.author && args.published)) {
+                throw new UserInputError(
+                    'title, author, and published cannot be empty'
+                )
+            }
+            if (!authors.find((author) => author.name === args.author)) {
+                authors.push({ name: args.author })
+            }
+            const book = {
+                title: args.title,
+                author: args.author,
+                published: args.published,
+                genres: args.genres || [],
+                id: uuid.v4(),
+            }
+            books.push(book)
+            return book
+        },
     },
 }
 
