@@ -89,7 +89,16 @@ const resolvers = {
                 throw new UserInputError(
                     'title, author, and published cannot be empty'
                 )
+            } else if (args.author.length < 4) {
+                throw new UserInputError(
+                    'Author name must be at least 4 characters long'
+                )
+            } else if (args.title.length < 2) {
+                throw new UserInputError(
+                    'Title must be at least 2 characters long'
+                )
             }
+
             const foundAuthor = await Author.findOne({ name: args.author })
             let newlyAdded = null
             if (!foundAuthor) {
