@@ -4,7 +4,7 @@ import './NavBar.css'
 
 const NavBar = () => {
     return (
-        <div class="nav-container">
+        <div className="nav-container">
             <NavLink className="nav-link" exact to="/">
                 Home
             </NavLink>
