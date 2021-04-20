@@ -2,7 +2,7 @@ import React from 'react'
 import { useQuery } from '@apollo/client'
 import { ALL_BOOKS } from '../graphql-requests/queries'
 
-const Books = (props) => {
+const Books = () => {
     const result = useQuery(ALL_BOOKS)
     let books = []
 
@@ -15,10 +15,6 @@ const Books = (props) => {
         )
     } else {
         books = result.data.allBooks
-    }
-
-    if (!props.show) {
-        return null
     }
 
     return (

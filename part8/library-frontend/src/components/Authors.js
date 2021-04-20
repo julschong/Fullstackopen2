@@ -19,10 +19,6 @@ const Authors = (props) => {
         setBorn('')
     }
 
-    if (!props.show) {
-        return null
-    }
-
     let authors = []
 
     if (result.loading) {

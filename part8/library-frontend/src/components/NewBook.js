@@ -3,7 +3,7 @@ import { useMutation } from '@apollo/client'
 import { ADD_BOOK } from '../graphql-requests/mutations'
 import { ALL_AUTHORS, ALL_BOOKS } from '../graphql-requests/queries'
 
-const NewBook = (props) => {
+const NewBook = () => {
     const [title, setTitle] = useState('')
     const [author, setAuhtor] = useState('')
     const [published, setPublished] = useState('')
@@ -16,10 +16,6 @@ const NewBook = (props) => {
             console.log(e.networkError)
         },
     })
-
-    if (!props.show) {
-        return null
-    }
 
     const submit = async (event) => {
         event.preventDefault()

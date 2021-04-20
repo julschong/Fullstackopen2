@@ -1,0 +1,26 @@
+.nav-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1%;
+    align-items: flex-start;
+    background-color: aliceblue;
+    width: 50%;
+}
+
+.nav-link {
+    text-decoration: none;
+    border: 1px black solid;
+    border-radius: 5px;
+    transition: background-color 0.5s ease;
+    flex: 1;
+    text-align: center;
+    padding: 0.2rem 0 0.2rem 0;
+}
+
+.nav-link:hover {
+    background-color: skyblue;
+}
+
+.active {
+    background-color: darkseagreen;
+}
