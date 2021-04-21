@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useQuery, useMutation } from '@apollo/client'
 import { ALL_AUTHORS } from '../graphql-requests/queries'
 import { UPDATE_AUTHOR } from '../graphql-requests/mutations'
+import _ from 'lodash'
 
 const Authors = (props) => {
     const result = useQuery(ALL_AUTHORS)
@@ -30,6 +31,9 @@ const Authors = (props) => {
         )
     } else {
         authors = result.data.allAuthors
+        if (name === '' && !_.isEmpty(authors)) {
+            setName(authors[0].name)
+        }
     }
 
     return (

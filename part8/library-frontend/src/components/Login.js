@@ -56,7 +56,7 @@ const Login = () => {
         <>
             {!_.isEmpty(userinfo) ? (
                 <div>
-                    <h3>Logged in as {userinfo.username}</h3>
+                    <h2>Logged in as {userinfo.username}</h2>
                     <button onClick={logout}>Logout</button>
                 </div>
             ) : (
