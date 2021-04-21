@@ -1,23 +1,12 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useMutation } from '@apollo/client'
 import { LOGIN } from '../graphql-requests/mutations'
 import jwt from 'jsonwebtoken'
 import _ from 'lodash'
 
-const Login = () => {
+const Login = ({ userinfo, setUserInfo }) => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
-
-    const [userinfo, setUserInfo] = useState({})
-
-    useEffect(() => {
-        const token = localStorage.getItem('user-token')
-        if (token) {
-            setUserInfo(
-                jwt.verify(token.substring(7), process.env.REACT_APP_SECRET)
-            )
-        }
-    }, [])
 
     const [login] = useMutation(LOGIN, {
         onError: (e) => console.log(e.message),
