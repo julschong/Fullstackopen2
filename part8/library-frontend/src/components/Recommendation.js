@@ -14,7 +14,12 @@ const Recommendation = ({ userinfo }) => {
         }
     }, [userinfo, bookByGenre])
 
-    if (data) {
+    if (_.isEmpty(userinfo)) {
+        return (<div>
+            <h2>recommendations</h2>
+            <p>Please log in first</p>
+        </div>)
+    } else if (data) {
         books = data.allBooks
         return (
             <div>
@@ -42,13 +47,13 @@ const Recommendation = ({ userinfo }) => {
             </div>
         )
     } else {
-        return (
-            <div>
-                <h2>recommendations</h2>
-                <p>loading</p>
-            </div>
-        )
+        return (<div>
+            <h2>recommendations</h2>
+            <p>loading</p>
+        </div>)
     }
+
+
 }
 
 export default Recommendation
