@@ -57,4 +57,12 @@ const calculateExercises = (
     };
 };
 
-console.log(calculateExercises([3, 0, 2, 4.5, 0, 3, 1], 2));
+const target = Number(process.argv[2]);
+const dailyHour = Array.of(
+    ...process.argv.slice(3).map((el) => Number(el))
+) as NonEmptyArray<number>;
+
+console.log([1, 2, 3]);
+console.log(dailyHour);
+
+console.log(calculateExercises(dailyHour, target));
