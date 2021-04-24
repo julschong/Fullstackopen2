@@ -7,11 +7,14 @@ import NavBar from './components/NavBar'
 import Login from './components/Login'
 import Recommendation from './components/Recommendation'
 import jwt from 'jsonwebtoken'
-import { useSubscription } from '@apollo/client'
+import { useSubscription, useApolloClient } from '@apollo/client'
 import { NEW_BOOK_ADDED } from './graphql-requests/subscriptions'
+import { ALL_BOOKS } from './graphql-requests/queries'
 
 const App = () => {
     const [userinfo, setUserInfo] = useState({})
+
+    const client = useApolloClient()
 
     useEffect(() => {
         const token = localStorage.getItem('user-token')
@@ -24,7 +27,18 @@ const App = () => {
 
     useSubscription(NEW_BOOK_ADDED, {
         onSubscriptionData: ({ subscriptionData }) => {
-            alert(`new book added: ${subscriptionData.data.newBookAdded.title}`)
+            const addedBook = subscriptionData.data.newBookAdded
+            alert(`new book added: ${addedBook.title}`)
+            const dataInStore = client.readQuery({ query: ALL_BOOKS })
+            if (
+                dataInStore &&
+                !dataInStore.allBooks.some((book) => book.id === addedBook.id)
+            ) {
+                client.writeQuery({
+                    query: ALL_BOOKS,
+                    data: { allBooks: dataInStore.allBooks.concat(addedBook) },
+                })
+            }
         },
     })
 
