@@ -1,25 +1,27 @@
-import React, { useEffect } from 'react'
-import { useLazyQuery } from '@apollo/client'
-import { BOOKS_BY_GENRE } from '../graphql-requests/queries'
-import _ from 'lodash'
+import React, { useEffect } from 'react';
+import { useLazyQuery } from '@apollo/client';
+import { BOOKS_BY_GENRE } from '../graphql-requests/queries';
+import _ from 'lodash';
 
 const Recommendation = ({ userinfo }) => {
-    const [bookByGenre, { data }] = useLazyQuery(BOOKS_BY_GENRE)
-    let books = []
+    const [bookByGenre, { data }] = useLazyQuery(BOOKS_BY_GENRE);
+    let books = [];
 
     useEffect(() => {
         if (!_.isEmpty(userinfo)) {
-            bookByGenre({ variables: { genre: userinfo.favoriteGenre } })
+            bookByGenre({ variables: { genre: userinfo.favoriteGenre } });
         }
-    }, [userinfo, bookByGenre])
+    }, [userinfo, bookByGenre]);
 
     if (_.isEmpty(userinfo)) {
-        return (<div>
-            <h2>recommendations</h2>
-            <p>Please log in first</p>
-        </div>)
+        return (
+            <div>
+                <h2>recommendations</h2>
+                <p>Please log in first</p>
+            </div>
+        );
     } else if (data) {
-        books = data.allBooks
+        books = data.allBooks;
         return (
             <div>
                 <h2>recommendations</h2>
@@ -44,15 +46,15 @@ const Recommendation = ({ userinfo }) => {
                     </tbody>
                 </table>
             </div>
-        )
+        );
     } else {
-        return (<div>
-            <h2>recommendations</h2>
-            <p>loading</p>
-        </div>)
+        return (
+            <div>
+                <h2>recommendations</h2>
+                <p>loading</p>
+            </div>
+        );
     }
+};
 
-
-}
-
-export default Recommendation
+export default Recommendation;

@@ -57,12 +57,21 @@ const calculateExercises = (
     };
 };
 
+if (process.argv.length < 4) {
+    throw new TypeError('Invalid input');
+}
+
 const target = Number(process.argv[2]);
-const dailyHour = Array.of(
-    ...process.argv.slice(3).map((el) => Number(el))
-) as NonEmptyArray<number>;
+let dailyHour: Array<number> = [];
+
+process.argv.slice(3).forEach((el) => {
+    if (isNaN(Number(el))) {
+        throw new TypeError('Invalid input');
+    }
+    dailyHour.push(Number(el));
+});
 
 console.log([1, 2, 3]);
 console.log(dailyHour);
 
-console.log(calculateExercises(dailyHour, target));
+console.log(calculateExercises(dailyHour as NonEmptyArray<number>, target));
