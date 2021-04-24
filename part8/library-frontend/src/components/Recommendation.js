@@ -5,7 +5,6 @@ import _ from 'lodash'
 
 const Recommendation = ({ userinfo }) => {
     const [bookByGenre, { data }] = useLazyQuery(BOOKS_BY_GENRE)
-
     let books = []
 
     useEffect(() => {
