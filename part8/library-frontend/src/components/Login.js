@@ -45,11 +45,12 @@ const Login = ({ userinfo, setUserInfo }) => {
         <>
             {!_.isEmpty(userinfo) ? (
                 <div>
-                    <h2>Logged in as {userinfo.username}</h2>
+                    <h2>logged in as {userinfo.username}</h2>
                     <button onClick={logout}>Logout</button>
                 </div>
             ) : (
                 <div>
+                    <h2>log in</h2>
                     <form onSubmit={onSubmitLogin}>
                         <label>username: </label>
                         <input

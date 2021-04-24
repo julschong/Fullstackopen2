@@ -2,8 +2,9 @@ import React, { useState } from 'react'
 import { useMutation } from '@apollo/client'
 import { ADD_BOOK } from '../graphql-requests/mutations'
 import { ALL_AUTHORS, ALL_BOOKS } from '../graphql-requests/queries'
+import _ from 'lodash'
 
-const NewBook = () => {
+const NewBook = ({ userinfo }) => {
     const [title, setTitle] = useState('')
     const [author, setAuhtor] = useState('')
     const [published, setPublished] = useState('')
@@ -13,7 +14,7 @@ const NewBook = () => {
     const [createBook] = useMutation(ADD_BOOK, {
         refetchQueries: [{ query: ALL_BOOKS }, { query: ALL_AUTHORS }],
         onError: (e) => {
-            console.log(e.networkError)
+            console.log(e)
         },
     })
 
@@ -35,6 +36,15 @@ const NewBook = () => {
     const addGenre = () => {
         setGenres(genres.concat(genre))
         setGenre('')
+    }
+
+    if (_.isEmpty(userinfo)) {
+        return (
+            <div>
+                <h2>add a new book</h2>
+                <p>Please log in first</p>
+            </div>
+        )
     }
 
     return (

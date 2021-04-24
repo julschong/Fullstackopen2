@@ -6,10 +6,11 @@ import _ from 'lodash'
 const Books = () => {
     const [filter, setfilter] = useState('')
 
-    const result = useQuery(ALL_BOOKS)
+    const { data, loading } = useQuery(ALL_BOOKS)
+
     let books = []
 
-    if (result.loading) {
+    if (loading) {
         return (
             <div>
                 <h2>books</h2>
@@ -17,7 +18,7 @@ const Books = () => {
             </div>
         )
     } else {
-        books = result.data.allBooks
+        books = data.allBooks
     }
 
     return (
