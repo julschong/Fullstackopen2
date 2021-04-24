@@ -7,6 +7,8 @@ import NavBar from './components/NavBar'
 import Login from './components/Login'
 import Recommendation from './components/Recommendation'
 import jwt from 'jsonwebtoken'
+import { useSubscription } from '@apollo/client'
+import { NEW_BOOK_ADDED } from './graphql-requests/subscriptions'
 
 const App = () => {
     const [userinfo, setUserInfo] = useState({})
@@ -19,6 +21,12 @@ const App = () => {
             )
         }
     }, [])
+
+    useSubscription(NEW_BOOK_ADDED, {
+        onSubscriptionData: ({ subscriptionData }) => {
+            alert(`new book added: ${subscriptionData.data.newBookAdded.title}`)
+        },
+    })
 
     return (
         <div>

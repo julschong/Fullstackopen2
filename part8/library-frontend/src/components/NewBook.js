@@ -14,7 +14,7 @@ const NewBook = ({ userinfo }) => {
     const [createBook] = useMutation(ADD_BOOK, {
         refetchQueries: [{ query: ALL_BOOKS }, { query: ALL_AUTHORS }],
         onError: (e) => {
-            console.log(e.networkError)
+            console.log(e)
         },
     })
 
@@ -39,10 +39,12 @@ const NewBook = ({ userinfo }) => {
     }
 
     if (_.isEmpty(userinfo)) {
-        return (<div>
-            <h2>add a new book</h2>
-            <p>Please log in first</p>
-        </div>)
+        return (
+            <div>
+                <h2>add a new book</h2>
+                <p>Please log in first</p>
+            </div>
+        )
     }
 
     return (
