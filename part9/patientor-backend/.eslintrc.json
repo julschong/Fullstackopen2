@@ -1,7 +1,7 @@
 {
     "env": {
         "commonjs": true,
-        "ES6": true,
+        "es6": true,
         "node": true
     },
     "extends": ["google"],
@@ -23,6 +23,7 @@
                 "argsIgnorePattern": "^_"
             }
         ],
-        "no-case-declarations": "off"
+        "no-case-declarations": "off",
+        "linebreak-style": ["error", "windows"]
     }
 }
