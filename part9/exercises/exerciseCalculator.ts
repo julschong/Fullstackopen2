@@ -8,9 +8,9 @@ interface ExerciseCalcResult {
     average: number;
 }
 
-type NonEmptyArray<T> = [T, ...T[]];
+export type NonEmptyArray<T> = [T, ...T[]];
 
-const calculateExercises = (
+export const calculateExercises = (
     dailyHour: NonEmptyArray<number>,
     target: number
 ): ExerciseCalcResult => {
@@ -30,10 +30,10 @@ const calculateExercises = (
         }
         total += hour;
     });
-    let periodLength = dailyHour.length;
-    let rating = Math.floor((successfulDays / dailyHour.length) * 2 + 1);
+    const periodLength = dailyHour.length;
+    const rating = Math.floor((successfulDays / dailyHour.length) * 2 + 1);
     let ratingDescription = '';
-    let average = total / periodLength;
+    const average = total / periodLength;
 
     switch (rating) {
         case 1:
@@ -57,21 +57,18 @@ const calculateExercises = (
     };
 };
 
-if (process.argv.length < 4) {
-    throw new TypeError('Invalid input');
-}
+// if (process.argv.length < 4) {
+//     throw new TypeError('Invalid input');
+// }
 
-const target = Number(process.argv[2]);
-let dailyHour: Array<number> = [];
+// const target = Number(process.argv[2]);
+// const dailyHour: Array<number> = [];
 
-process.argv.slice(3).forEach((el) => {
-    if (isNaN(Number(el))) {
-        throw new TypeError('Invalid input');
-    }
-    dailyHour.push(Number(el));
-});
+// process.argv.slice(3).forEach((el) => {
+//     if (isNaN(Number(el))) {
+//         throw new TypeError('Invalid input');
+//     }
+//     dailyHour.push(Number(el));
+// });
 
-console.log([1, 2, 3]);
-console.log(dailyHour);
-
-console.log(calculateExercises(dailyHour as NonEmptyArray<number>, target));
+// console.log(calculateExercises(dailyHour as NonEmptyArray<number>, target));
