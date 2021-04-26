@@ -16,9 +16,14 @@ const getAllNoSensitive = (): WithoutSSN[] => {
     }));
 };
 
-const addOne = (newPatient:AddNewPatientType):Patient => {
+
+const addOne = (newPatient: AddNewPatientType): Patient => {
     const newId = uuid();
-    const newPatientWithId:Patient = {...newPatient, id: newId};
+    const newPatientWithId: Patient = {
+        ...newPatient,
+        id: newId,
+    };
+
     patientsData.push(newPatientWithId);
     return newPatientWithId;
 };
