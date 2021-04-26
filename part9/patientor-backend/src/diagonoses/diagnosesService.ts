@@ -1,11 +1,11 @@
 import {diagnosesData} from './diagnosesData';
 
 const getAll = () => {
-  return diagnosesData;
+    return diagnosesData;
 };
 
 const diagnosesService = {
-  getAll,
+    getAll,
 };
 
 export default diagnosesService;

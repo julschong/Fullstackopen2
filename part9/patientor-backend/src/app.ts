@@ -8,14 +8,16 @@ import patientsRouter from './patients/patientsRouter';
 const app = express();
 
 app.use(cors());
+app.use(express.json());
+
 app.use(morgan('dev'));
 
 app.get('/', (_req, res) => {
-  res.send('hhello');
+    res.send('hhello');
 });
 
 app.get('/api/ping', (_req, res) => {
-  res.send('pong');
+    res.send('pong');
 });
 
 app.use('/api/diagnoses', diagnosesRouter);
