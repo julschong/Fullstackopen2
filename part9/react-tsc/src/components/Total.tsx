@@ -4,13 +4,13 @@ import { ContentType } from '../types/types';
 const Total = ({ courseParts }: ContentType) => {
     return (
         <div>
-            <p>
+            <span>
                 Number of exercises{' '}
                 {courseParts.reduce(
                     (sum, course) => sum + course.exerciseCount,
                     0
                 )}
-            </p>
+            </span>
         </div>
     );
 };
